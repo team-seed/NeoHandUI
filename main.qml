@@ -23,7 +23,7 @@ ApplicationWindow {
             centerIn: parent
         }
         focus: true
-        source: "/ui/game/Game.qml"
+        source: "/ui/option/mainPanel.qml"
         /*Game {
             anchors.fill: parent
         }*/

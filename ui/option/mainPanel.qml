@@ -1,19 +1,32 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-
-Grid{
+Column{
     anchors.fill: parent
-    columns:1
+    FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
     Text{
-        width:parent.width
-        height:parent.height/6
-        text:"SETTINGS"
+        width: parent.width
+        height: parent.height/6
+        text: "SETTINGS"
+        font.family: font_Genjyuu_XP_bold.name
+        font.italic: true
+        font.bold: true
+        font.pointSize: 30
+        fontSizeMode: Text.Fit
+        color: "white"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
     }
 
     Text {
+        width:parent.width
+        height: parent.height/7
         id: button_test
         text:"BUTTON TEST"
-        width:parent.width;height: parent.height/6
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
         focus: true
 
@@ -24,14 +37,20 @@ Grid{
                 event.accepted = true;
             }
        }
-        KeyNavigation.up: exit
+        KeyNavigation.up: quit
         KeyNavigation.down: camera_test
     }
 
     Text {
         id: camera_test
+        width:parent.width
+        height: parent.height/7
         text:"CAMERA TEST"
-        width:parent.width;height: parent.height/6
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
 
         Keys.onPressed: {
@@ -46,8 +65,14 @@ Grid{
 
     Text {
         id: network_test
-        text:"NERWORK TEST"
-        width:parent.width;height: parent.height/6
+        text:"NETWORK TEST"
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        width:parent.width
+        height: parent.height/7
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
 
         Keys.onPressed: {
@@ -63,7 +88,13 @@ Grid{
     Text {
         id: param_setting
         text:"PARAM SETTING"
-        width:parent.width;height: parent.height/6
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        width:parent.width
+        height: parent.height/7
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
 
         Keys.onPressed: {
@@ -78,32 +109,50 @@ Grid{
     Text {
         id: game_start
         text:"GAME START"
-        width:parent.width;height: parent.height/6
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        width:parent.width
+        height: parent.height/7
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
 
         Keys.onPressed: {
             if(event.key == Qt.Key_Return || event.key == Qt.Key_Right){
                 console.log("GAME START");
-                pageloader.source = "/main.qml"
+               pageloader.source = "/ui/game/Game.qml"
                 event.accepted = true;
             }
         }
         KeyNavigation.up: param_setting
-        KeyNavigation.down: exit
+        KeyNavigation.down: quit
     }
     Text {
-        id: exit
-        text:"EXIT"
-        width:parent.width;height: parent.height/6
+        id: quit
+        text:"QUIT"
+        font.family: font_Genjyuu_XP_bold.name
+        font.pointSize: 20
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        width:parent.width
+        height: parent.height/7
+        horizontalAlignment: Text.AlignHCenter
         color: focus ? "red" : "gray"
 
         Keys.onPressed: {
             if(event.key == Qt.Key_Return || event.key == Qt.Key_Right){
-                window.close()
-                event.accepted = true;
+               Qt.quit()
+               event.accepted = true;
             }
         }
         KeyNavigation.up: game_start
         KeyNavigation.down: button_test
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

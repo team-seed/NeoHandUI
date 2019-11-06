@@ -2,8 +2,9 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 Column{
-    anchors.fill: parent
-    spacing: 10
+    anchors.fill:parent
+    FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
+     FontLoader { id: good_time; source: "qrc:/font/good-times-rg.ttf" }
     focus: true
     Keys.onPressed: {
         if(event.key == Qt.Key_Return){
@@ -43,43 +44,71 @@ Column{
     }
 
     Text{
-        width:parent.width
-        height:parent.height/4
+        width: parent.width
+        height: parent.height/6
+        font.italic: true
+        font.bold: true
+        font.pointSize: 30
+        fontSizeMode: Text.Fit
+        font.family: font_Genjyuu_XP_bold.name
+        color: "white"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
         text:"BUTTON TEST"
     }
     MyButton{
         id:up
-        Text { anchors.centerIn: parent;text: qsTr("UP")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("UP");font.family:good_time.name}
     }
 
     MyButton{
         id:down
-        Text { anchors.centerIn: parent;text: qsTr("DOWN")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("DOWN");font.family:good_time.name}
     }
     MyButton{
         id:left
-        Text { anchors.centerIn: parent;text: qsTr("LEFT")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("LEFT");font.family:good_time.name}
     }
     MyButton{
         id:right
-        Text { anchors.centerIn: parent;text: qsTr("RIGHT")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("RIGHT");font.family:good_time.name}
     }
     MyButton{
         id:space
-        Text { anchors.centerIn: parent;text: qsTr("SPACE")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("SPACE");font.family:good_time.name}
     }
     MyButton{
         id:backspace
-        Text { anchors.centerIn: parent;text: qsTr("BACKSPACE")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("BACKSPACE");font.family:good_time.name}
     }
     MyButton{
         id:esc
-        Text { anchors.centerIn: parent;text: qsTr("ESC")}
+        height: parent.height/12
+        width:parent.width
+        Text { anchors.centerIn: parent;text: qsTr("ESC");font.family:good_time.name}
     }
 
     Text{
-        width: parent.width
-        height: parent.height/4
+        color: "white"
+        font.family: font_Genjyuu_XP_bold.name
+        height: parent.height/8
+        width:parent.width
+        font.pointSize: 20
+
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         text:"按下Enter以結束BUTTON TEST"
     }
 
