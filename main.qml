@@ -23,7 +23,8 @@ ApplicationWindow {
             centerIn: parent
         }
         focus: true
-        source: "/ui/option/mainPanel.qml"
+        source: "/ui/songselect/Songselect.qml"  //"/ui/option/mainPanel.qml"
+
         /*Game {
             anchors.fill: parent
         }*/
@@ -39,7 +40,7 @@ ApplicationWindow {
 
         anchors {
             left: parent.left
-            right: screen.left
+            right: pageloader.left
         }
     }
 
@@ -48,7 +49,7 @@ ApplicationWindow {
         color: "black"
 
         anchors {
-            left: screen.right
+            left: pageloader.right
             right: parent.right
         }
     }

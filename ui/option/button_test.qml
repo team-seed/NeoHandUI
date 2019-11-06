@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Column{
     anchors.fill:parent
     FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
-     FontLoader { id: good_time; source: "qrc:/font/good-times-rg.ttf" }
+    FontLoader { id: good_time; source: "qrc:/font/good-times-rg.ttf" }
     focus: true
     Keys.onPressed: {
         if(event.key == Qt.Key_Return){
