@@ -3,7 +3,6 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
 import "./ui/game"
-import "./ui/option"
 
 ApplicationWindow {
     visible: true
@@ -23,14 +22,7 @@ ApplicationWindow {
             centerIn: parent
         }
         focus: true
-        source: "/ui/songselect/Songselect.qml"  //"/ui/option/mainPanel.qml"
-
-        /*Game {
-            anchors.fill: parent
-        }*/
-        /*Settings{
-            anchors.fill: parent
-        }*/
+        source: /*"/ui/songselect/Songselect.qml"  */"/ui/option/mainPanel.qml"
 
     }
 

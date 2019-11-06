@@ -46,6 +46,8 @@ Column{
     Text{
         width: parent.width
         height: parent.height/6
+
+        text:"BUTTON TEST"
         font.italic: true
         font.bold: true
         font.pointSize: 30
@@ -54,7 +56,6 @@ Column{
         color: "white"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        text:"BUTTON TEST"
     }
     MyButton{
         id:up
