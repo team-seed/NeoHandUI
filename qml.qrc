@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ui/game/Game.qml</file>
+        <file>ui/game/Lane.qml</file>
+        <file>ui/game/Bottomline.qml</file>
+        <file>ui/game/Combo.qml</file>
+        <file>ui/game/Metadata.qml</file>
+        <file>ui/game/game_extension.js</file>
+        <file>ui/game/Sideleft.qml</file>
+        <file>ui/game/Sideright.qml</file>
+        <file>ui/game/Arrow.qml</file>
+        <file>ui/songselect/Songselect.qml</file>
+        <file>ui/game/game.qml</file>
+        <file>ui/option/button_test.qml</file>
+        <file>ui/option/mainPanel.qml</file>
+        <file>ui/option/MyButton.qml</file>
+        <file>ui/option/settings.qml</file>
+    </qresource>
+</RCC>
