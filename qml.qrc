@@ -18,5 +18,7 @@
         <file>ui/option/network_test.qml</file>
         <file>ui/option/camera_test.qml</file>
         <file>ui/option/param_setting.qml</file>
+        <file>ui/option/Header.qml</file>
+        <file>ui/option/SelectBar.qml</file>
     </qresource>
 </RCC>

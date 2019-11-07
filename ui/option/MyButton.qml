@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
 Rectangle{
-    id: rect
+    id:rect
     color: "lightsteelblue";
-    width:175;
-    height: 25;
+    height: parent.height/12
+    width: parent.width
     radius:10;
 
     states: [
