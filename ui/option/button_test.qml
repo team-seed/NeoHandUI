@@ -6,43 +6,6 @@ Column{
     FontLoader { id: good_time; source: "qrc:/font/good-times-rg.ttf" }
     Header{ id:header;text:"BUTTON TEST" }
 
-    focus: true
-    Keys.onPressed: {
-        if(event.key == Qt.Key_Return){
-            pageloader.source = "mainPanel.qml"
-        }
-        else if(event.key==Qt.Key_Up)
-            up.state = "Pressed"
-        else if(event.key==Qt.Key_Down)
-            down.state = "Pressed"
-        else if(event.key==Qt.Key_Left)
-            left.state = "Pressed"
-        else if(event.key==Qt.Key_Right)
-            right.state = "Pressed"
-        else if(event.key==Qt.Key_Space)
-            space.state = "Pressed"
-        else if(event.key==Qt.Key_Backspace)
-            backspace.state = "Pressed"
-        else if(event.key==Qt.Key_Escape)
-            esc.state = "Pressed"
-
-    }
-    Keys.onReleased: {
-        if(event.key==Qt.Key_Up)
-            up.state = "Released"
-        else if(event.key==Qt.Key_Down)
-            down.state = "Released"
-        else if(event.key==Qt.Key_Left)
-            left.state = "Released"
-        else if(event.key==Qt.Key_Right)
-            right.state = "Released"
-        else if(event.key==Qt.Key_Space)
-            space.state = "Released"
-        else if(event.key==Qt.Key_Backspace)
-            backspace.state = "Released"
-        else if(event.key==Qt.Key_Escape)
-            esc.state = "Released"
-    }
     MyButton{
         id:up
         Text { anchors.centerIn: parent;text: qsTr("UP");font.family:good_time.name}
@@ -84,4 +47,60 @@ Column{
         text:"按下Enter以結束BUTTON TEST"
     }
 
+    Component.onCompleted: {
+        //press
+        game_main.uppress_signal.connect(uppress)
+        game_main.downpress_signal.connect(downpress)
+        game_main.leftpress_signal.connect(leftpress)
+        game_main.rightpress_signal.connect(rightpress)
+        game_main.enterpress_signal.connect(enterpress)
+        game_main.spacepress_signal.connect(spacepress)
+        game_main.bksppress_signal.connect(bksppress)
+        game_main.escpress_signal.connect(escpress)
+
+        //release
+        game_main.uprelease_signal.connect(uprelease)
+        game_main.downrelease_signal.connect(downrelease)
+        game_main.leftrelease_signal.connect(leftrelease)
+        game_main.rightrelease_signal.connect(rightrelease)
+        game_main.spacerelease_signal.connect(spacerelease)
+        game_main.bksprelease_signal.connect(bksprelease)
+        game_main.escrelease_signal.connect(escrelease)
+    }
+
+    function uppress(){up.state = "Pressed"}
+    function downpress(){down.state = "Pressed"}
+    function leftpress(){left.state = "Pressed"}
+    function rightpress(){right.state = "Pressed"}
+    function enterpress(){pageloader.source = "mainPanel.qml"}
+    function spacepress(){space.state = "Pressed"}
+    function bksppress(){backspace.state = "Pressed"}
+    function escpress(){esc.state = "Pressed"}
+
+    function uprelease(){up.state = "Released"}
+    function downrelease(){down.state = "Released"}
+    function leftrelease(){left.state = "Released"}
+    function rightrelease(){right.state = "Released"}
+    function spacerelease(){space.state = "Released"}
+    function bksprelease(){backspace.state = "Released"}
+    function escrelease(){esc.state = "Released"}
+
+    Component.onDestruction: {
+        game_main.uppress_signal.disconnect(uppress)
+        game_main.downpress_signal.disconnect(downpress)
+        game_main.leftpress_signal.disconnect(leftpress)
+        game_main.rightpress_signal.disconnect(rightpress)
+        game_main.enterpress_signal.disconnect(enterpress)
+        game_main.spacepress_signal.disconnect(spacepress)
+        game_main.bksppress_signal.disconnect(bksppress)
+        game_main.escpress_signal.disconnect(escpress)
+
+        game_main.uprelease_signal.disconnect(uprelease)
+        game_main.downrelease_signal.disconnect(downrelease)
+        game_main.leftrelease_signal.disconnect(leftrelease)
+        game_main.rightrelease_signal.disconnect(rightrelease)
+        game_main.spacerelease_signal.disconnect(spacerelease)
+        game_main.escrelease_signal.disconnect(escrelease)
+        game_main.bksprelease_signal.disconnect(bksprelease)
+    }
 }

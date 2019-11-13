@@ -12,5 +12,5 @@ Text {
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
 
-    color: focus ? "red" : "gray"
+    //color: focus ? "red" : "gray"
 }

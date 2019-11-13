@@ -8,6 +8,7 @@ class Object_pool {
 public:
     Object_pool(){
     }
+
     void init(int pool_size=10,QUrl url=QUrl("")){
         for (int i = 0;i < pool_size;i++){
             QSoundEffect *temp = new QSoundEffect;
@@ -16,6 +17,7 @@ public:
             elem.push_back(temp);
         }
     }
+
     QSoundEffect* get_elem(){
         if(elem.isEmpty())
            return NULL;
