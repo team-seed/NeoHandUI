@@ -6,12 +6,6 @@ Column{
     id: column
     anchors.fill:parent
     Header{ text:"CAMERA TEST" }
-    focus: true
-    Keys.onPressed: {
-        if(event.key == Qt.Key_Left || Qt.Key_Backspace){
-            pageloader.source = "mainPanel.qml"
-        }
-    }
 
     Camera{
         id: cam
@@ -52,5 +46,15 @@ Column{
         }
     Image{ id: photoPreview }
 
+    Component.onCompleted:{
+        game_main.leftpress_signal.connect(tomain)
+        game_main.bksppress_signal.connect(tomain)
+    }
 
+    function tomain(){pageloader.source = "mainPanel.qml"}
+
+    Component.onDestruction: {
+        game_main.leftpress_signal.disconnect(tomain)
+        game_main.bksppress_signal.disconnect(tomain)
+    }
 }

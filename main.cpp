@@ -1,5 +1,8 @@
-#include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QApplication>
+#include <QQuickWidget>
+
+#include "Game.h"
 
 #include "Songselect.h"
 
@@ -7,19 +10,14 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
-
     qmlRegisterType<Songselect>("custom.songselect", 1, 0, "CustomSongselect");
 
-    QQmlApplicationEngine engine;
+    QApplication app(argc, argv);
+    Game *widget=new Game();
     const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-
-    engine.load(url);
+    widget->setSource(url);
+    widget->init();
+    widget->show();
 
     return app.exec();
 }

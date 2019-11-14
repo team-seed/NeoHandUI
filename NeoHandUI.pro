@@ -1,4 +1,4 @@
-QT += quick
+QT += quick quickwidgets concurrent multimedia
 
 CONFIG += c++11
 
@@ -33,3 +33,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Songselect.h
+    Effect_play.h
+    Game.h
+    Object_pool.h
