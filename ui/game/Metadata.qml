@@ -154,7 +154,7 @@ Item {
 
     Rectangle {
         id: difficulty_frame
-        color: "darkred"
+        color: "firebrick"
         radius: this.height / 2
         height: game_metadata_background.height / 10
         width: difficulty_content.width + this.height

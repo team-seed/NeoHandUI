@@ -22,7 +22,7 @@ ApplicationWindow {
             centerIn: parent
         }
         focus: true
-        source: /*"/ui/songselect/Songselect.qml"  */"/ui/option/mainPanel.qml"
+        source: "/ui/songselect/Songselect.qml" //"/ui/option/mainPanel.qml"
 
     }
 
