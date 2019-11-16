@@ -11,7 +11,6 @@
         <file>ui/game/Sideright.qml</file>
         <file>ui/game/Arrow.qml</file>
         <file>ui/songselect/Songselect.qml</file>
-        <file>ui/game/game.qml</file>
         <file>ui/option/button_test.qml</file>
         <file>ui/option/mainPanel.qml</file>
         <file>ui/option/MyButton.qml</file>
@@ -20,5 +19,6 @@
         <file>ui/option/param_setting.qml</file>
         <file>ui/option/Header.qml</file>
         <file>ui/option/SelectBar.qml</file>
+        <file>ui/home/Home.qml</file>
     </qresource>
 </RCC>

@@ -1,34 +1,61 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-Column{
+Column {
     property int select_index: 0
-    anchors.fill: parent
-    Header{ text: "SETTINGS" }
+    property string version: "NH2:SL.20191117.1b"
+
+    spacing: 20
+
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+        topMargin: 90
+        bottomMargin: 90
+        leftMargin: 160
+        rightMargin: 160
+    }
+
+    Header{ text: "NeoHand 2: SEED OF LEGGENDARIA" }
+
+    Text {
+        text: version
+        color: "gray"
+        font.family: font_Genjyuu_XP_bold.name
+        font.pixelSize: parent.height / 30
+    }
+
+    Rectangle {
+        width: 300
+        height: 5
+        color: "seashell"
+    }
 
     SelectBar {
         id: game_start
-        text:"GAME START"
+        text:"GAME  START"
         color: select_index == 0 ? "red" : "gray"
     }
     SelectBar {
         id: button_test
-        text:"BUTTON TEST"
+        text:"BUTTON  TEST"
         color: select_index == 1 ? "red" : "gray"
     }
     SelectBar {
         id: camera_test
-        text:"CAMERA TEST"
+        text:"CAMERA  TEST"
         color: select_index == 2 ? "red" : "gray"
     }
     SelectBar {
         id: network_test
-        text:"NETWORK TEST"
+        text:"NETWORK  TEST"
         color: select_index == 3 ? "red" : "gray"
     }
     SelectBar {
         id: param_setting
-        text:"PARAM SETTING"
+        text:"PARAM  SETTING"
         color: select_index == 4 ? "red" : "gray"
     }
     SelectBar {
@@ -37,11 +64,14 @@ Column{
         color: select_index == 5 ? "red" : "gray"
     }
 
+
     Component.onCompleted: {
         game_main.uppress_signal.connect(up)
         game_main.downpress_signal.connect(down)
         game_main.enterpress_signal.connect(page_switch)
         game_main.rightpress_signal.connect(page_switch)
+
+        game_transition.state = "COMPLETE"
     }
 
     function up(){
@@ -55,7 +85,9 @@ Column{
     function page_switch() {
         switch (select_index){
             case 0:
-                pageloader.source = "/ui/game/Game.qml"
+                game_transition.state = "LOADING"
+                disconnect_all()
+                destruct.start()
                 break
             case 1:
                 pageloader.source = "button_test.qml"
@@ -75,10 +107,22 @@ Column{
         }
     }
 
-    Component.onDestruction: {
+    function disconnect_all() {
         game_main.uppress_signal.disconnect(up)
         game_main.downpress_signal.disconnect(down)
         game_main.rightpress_signal.disconnect(page_switch)
         game_main.enterpress_signal.disconnect(page_switch)
     }
+
+    Component.onDestruction: {
+        disconnect_all()
+    }
+
+    Timer {
+        id: destruct
+        interval: game_transition.time
+        onTriggered: pageloader.source = "/ui/songselect/Songselect.qml"
+    }
+
+    FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
 }

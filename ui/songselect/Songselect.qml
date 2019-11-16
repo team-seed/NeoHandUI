@@ -149,7 +149,7 @@ Item {
             onCurrentIndexChanged: {
                 dir.stopPreview();
                 dir.playEffect();
-                player_timer.start();
+                player_timer.restart();
             }
         }
     }
@@ -444,15 +444,44 @@ Item {
         select_expert = !select_expert
     }
 
+    function to_main () {
+        pageloader.source = "/ui/option/mainPanel.qml"
+    }
+
+    function select() {
+        game_transition.state = "LOADING"
+        disconnect_all();
+        var data = songs_meta[select_list.currentIndex]
+        data.push(select_expert)
+        game_main.song_data = data;
+        destruct.start();
+    }
+
     Component.onCompleted: {
         game_main.rightpress_signal.connect(next_song)
         game_main.leftpress_signal.connect(prev_song)
         game_main.downpress_signal.connect(chng_diff)
+        game_main.escpress_signal.connect(to_main)
+        game_main.enterpress_signal.connect(select)
+
+        game_transition.state = "COMPLETE"
     }
 
-    Component.onDestruction: {
+    function disconnect_all() {
         game_main.rightpress_signal.disconnect(next_song)
         game_main.leftpress_signal.disconnect(prev_song)
         game_main.downpress_signal.disconnect(chng_diff)
+        game_main.escpress_signal.disconnect(to_main)
+        game_main.enterpress_signal.disconnect(select)
+    }
+
+    Component.onDestruction: {
+        disconnect_all();
+    }
+
+    Timer {
+        id: destruct
+        interval: game_transition.time
+        onTriggered: pageloader.source = "../game/Game.qml"
     }
 }

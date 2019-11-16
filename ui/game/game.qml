@@ -6,12 +6,13 @@ import "game_extension.js" as EXT
 Item {
     id: game_container
 
-    property string title: "Nacreous Snowmelt"
-    property string artist: "かめりあ"
-    property string jacket: "/songs/test/jacket2.png"
-    property string difficulty: "BLASTER"
-    property int level: 10
-    property string bpm: "Various"
+    property string title: null
+    property string artist: null
+    property string jacket: null
+    property string difficulty: null
+    property int level: null
+    property string bpm: "100" // to be changed
+    property string bg: null
     property double hispeed: 2.5
     property int score: 1000000
     property int mybest: 1000000
@@ -32,7 +33,7 @@ Item {
         id: game_background
         anchors.fill: parent
         opacity: 0.5
-        source: "./game-bg-test3.png"
+        source: bg
         fillMode: Image.PreserveAspectCrop
     }
 
@@ -57,8 +58,6 @@ Item {
         }
     }
 
-
-
     Sideleft {}
 
     Sideright {}
@@ -66,4 +65,28 @@ Item {
     Metadata {}
 
     Bottomline {}
+
+    function to_main () {
+        pageloader.source = "/ui/option/mainPanel.qml"
+    }
+
+    function set_value() {
+        title = game_main.song_data[2]
+        artist = game_main.song_data[1]
+        jacket = "file:///" + game_main.song_data[0] + "/jacket.png"
+        difficulty = game_main.song_data[9] ? "EXPERT" : "BASIC"
+        level = game_main.song_data[9] ? game_main.song_data[8] :game_main.song_data[7]
+        bg = "file:///" + game_main.song_data[0] + "/bg.png"
+        //bpm = game_main.song_data[2]
+    }
+
+    Component.onCompleted: {
+        game_main.escpress_signal.connect(to_main)
+        set_value();
+        game_transition.state = "COMPLETED"
+    }
+
+    Component.onDestruction: {
+        game_main.escpress_signal.disconnect(to_main)
+    }
 }

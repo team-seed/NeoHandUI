@@ -4,8 +4,25 @@ import QtMultimedia 5.12
 
 Column{
     id: column
-    anchors.fill:parent
-    Header{ text:"CAMERA TEST" }
+    spacing: 20
+
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+        topMargin: 90
+        bottomMargin: 90
+        leftMargin: 160
+        rightMargin: 160
+    }
+
+    Header{ text:"CAMERA  TEST" }
+    Rectangle {
+        width: 300
+        height: 5
+        color: "seashell"
+    }
 
     Camera{
         id: cam
@@ -13,48 +30,96 @@ Column{
         flash.mode: Camera.FlashRedEyeReduction
 
         exposure {
-                    exposureCompensation: -1.0
-                    exposureMode: Camera.ExposurePortrait
+            exposureCompensation: -1.0
+            exposureMode: Camera.ExposurePortrait
         }
 
-        imageCapture{
-            onImageCaptured: {
-                photoPreview.source = preview
+        imageCapture.onImageCaptured: photoPreview.source = preview
+    }
+
+    Item {
+        height: video.height
+        width: video.width
+
+        VideoOutput{
+
+            id: video
+            source: cam
+            focus: visible
+        }
+
+        Text {
+            id: banr
+            font.family: font_Genjyuu_XP_bold.name
+            text: "UP / DOWN  TO  CHANGE  CAMERA"
+            color: "white"
+            anchors {
+                top: video.top
+                left: video.right
+                leftMargin: 50
             }
         }
-    }
 
-    VideoOutput{
-        source: cam
-        focus: visible
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-    ListView {
+        ListView {
+            id: camera_list
             model: QtMultimedia.availableCameras
-            anchors.verticalCenterOffset: 450
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            delegate: Text {
-                text: modelData.displayName
-                anchors.fill:parent
-                color: "white"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: cam.deviceId = modelData.deviceId
+            anchors {
+                top: banr.bottom
+                left: video.right
+                leftMargin: 50
+            }
+
+            highlight: Rectangle {
+                color: "transparent"
+                border {
+                    color: "red"
+                    width: 2
+                }
+            }
+
+            delegate: Rectangle{
+                width: 300
+                height: 30
+                color: "transparent"
+                Text {
+                    text: modelData.displayName
+                    font.family: font_Genjyuu_XP_bold.name
+                    anchors.centerIn: parent
+                    color: "white"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: cam.deviceId = modelData.deviceId
+                    }
                 }
             }
         }
+    }
+
     Image{ id: photoPreview }
 
+    Text{
+        color: "white"
+        font.family: font_Genjyuu_XP_bold.name
+        font.pixelSize: 40
+
+        text:"BKSP  TO  RETURN"
+    }
+
     Component.onCompleted:{
-        game_main.leftpress_signal.connect(tomain)
         game_main.bksppress_signal.connect(tomain)
+        game_main.uppress_signal.connect(prev_camera)
+        game_main.downpress_signal.connect(next_camera)
     }
 
     function tomain(){pageloader.source = "mainPanel.qml"}
+    function prev_camera() { camera_list.decrementCurrentIndex(); cam.deviceId = camera_list.currentItem.deviceId }
+    function next_camera() { camera_list.incrementCurrentIndex(); cam.deviceId = camera_list.currentItem.deviceId }
 
     Component.onDestruction: {
-        game_main.leftpress_signal.disconnect(tomain)
         game_main.bksppress_signal.disconnect(tomain)
+        game_main.uppress_signal.disconnect(prev_camera)
+        game_main.downpress_signal.disconnect(next_camera)
     }
+
+    FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
 }

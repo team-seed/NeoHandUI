@@ -2,49 +2,68 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 Column{
-    anchors.fill:parent
-    FontLoader { id: good_time; source: "qrc:/font/good-times-rg.ttf" }
-    Header{ id:header;text:"BUTTON TEST" }
+    spacing: 20
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+        topMargin: 90
+        bottomMargin: 90
+        leftMargin: 160
+        rightMargin: 160
+    }
+
+    FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }
+    Header{ id:header; text:"BUTTON  TEST" }
+
+    Rectangle {
+        width: 300
+        height: 5
+        color: "seashell"
+    }
 
     MyButton{
-        id:up
-        Text { anchors.centerIn: parent;text: qsTr("UP");font.family:good_time.name}
+        id: up
+        Text { anchors.centerIn: parent; color: "gray"; text: "UP"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
     MyButton{
-        id:down
-        Text { anchors.centerIn: parent;text: qsTr("DOWN");font.family:good_time.name}
+        id: down
+        Text { anchors.centerIn: parent; color: "gray"; text: "DOWN"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
     MyButton{
-        id:left
-        Text { anchors.centerIn: parent;text: qsTr("LEFT");font.family:good_time.name}
+        id: left
+        Text { anchors.centerIn: parent; color: "gray"; text: "LEFT"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
     MyButton{
-        id:right
-        Text { anchors.centerIn: parent;text: qsTr("RIGHT");font.family:good_time.name}
+        id: right
+        Text { anchors.centerIn: parent; color: "gray"; text: "RIGHT"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
+    }
+
+    MyButton{
+        id: enter
+        Text { anchors.centerIn: parent; color: "gray"; text: "ENTER"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
+    }
+
+    MyButton{
+        id: space
+        Text { anchors.centerIn: parent; color: "gray"; text: "SPACE"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
     MyButton{
-        id:space
-        Text { anchors.centerIn: parent;text: qsTr("SPACE");font.family:good_time.name}
+        id: backspace
+        Text { anchors.centerIn: parent; color: "gray"; text: "BKSP"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
     MyButton{
-        id:backspace
-        Text { anchors.centerIn: parent;text: qsTr("BACKSPACE");font.family:good_time.name}
-    }
-    MyButton{
-        id:esc
-        Text { anchors.centerIn: parent;text: qsTr("ESC");font.family:good_time.name}
+        id: esc
+        Text { anchors.centerIn: parent; color: "gray"; text: "ESC"; font.pixelSize: parent.height; font.family:font_Genjyuu_XP_bold.name}
     }
 
     Text{
         color: "white"
-        font.family: good_time.name
-        height: parent.height/8
-        width:parent.width
-        font.pointSize: 20
+        font.family: font_Genjyuu_XP_bold.name
+        font.pixelSize: 40
 
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        text:"按下Enter以結束BUTTON TEST"
+        text:"ESC + BKSP  TO  RETURN"
     }
 
     Component.onCompleted: {
@@ -63,6 +82,7 @@ Column{
         game_main.downrelease_signal.connect(downrelease)
         game_main.leftrelease_signal.connect(leftrelease)
         game_main.rightrelease_signal.connect(rightrelease)
+        game_main.enterrelease_signal.connect(enterrelease)
         game_main.spacerelease_signal.connect(spacerelease)
         game_main.bksprelease_signal.connect(bksprelease)
         game_main.escrelease_signal.connect(escrelease)
@@ -72,15 +92,16 @@ Column{
     function downpress(){down.state = "Pressed"}
     function leftpress(){left.state = "Pressed"}
     function rightpress(){right.state = "Pressed"}
-    function enterpress(){pageloader.source = "mainPanel.qml"}
+    function enterpress(){enter.state = "Pressed"}
     function spacepress(){space.state = "Pressed"}
-    function bksppress(){backspace.state = "Pressed"}
-    function escpress(){esc.state = "Pressed"}
+    function bksppress(){backspace.state = "Pressed"; if (esc.state == "Pressed") {pageloader.source = "mainPanel.qml"}}
+    function escpress(){esc.state = "Pressed"; if (backspace.state == "Pressed") {pageloader.source = "mainPanel.qml"}}
 
     function uprelease(){up.state = "Released"}
     function downrelease(){down.state = "Released"}
     function leftrelease(){left.state = "Released"}
     function rightrelease(){right.state = "Released"}
+    function enterrelease(){enter.state = "Released"}
     function spacerelease(){space.state = "Released"}
     function bksprelease(){backspace.state = "Released"}
     function escrelease(){esc.state = "Released"}
@@ -99,6 +120,7 @@ Column{
         game_main.downrelease_signal.disconnect(downrelease)
         game_main.leftrelease_signal.disconnect(leftrelease)
         game_main.rightrelease_signal.disconnect(rightrelease)
+        game_main.enterrelease_signal.disconnect(enterrelease)
         game_main.spacerelease_signal.disconnect(spacerelease)
         game_main.escrelease_signal.disconnect(escrelease)
         game_main.bksprelease_signal.disconnect(bksprelease)

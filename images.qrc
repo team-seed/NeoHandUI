@@ -1,11 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>songs/test/jacket.png</file>
-        <file>ui/game/game-bg-test2.jpg</file>
-        <file>ui/game/game-bg.jpg</file>
         <file>jacket.png</file>
-        <file>songs/test/jacket2.png</file>
-        <file>ui/game/game-bg-test3.png</file>
         <file>ui/game/arrow.png</file>
+        <file>ui/home/game-transition.png</file>
     </qresource>
 </RCC>

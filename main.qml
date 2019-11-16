@@ -10,6 +10,14 @@ Item {
     width: Screen.width
     height: Screen.height
 
+    property variant song_data: null
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.BlankCursor
+        enabled: false
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "black"
@@ -21,9 +29,47 @@ Item {
         width: height * 16/9
         anchors.centerIn: parent
         focus: true
-        source: "/ui/songselect/Songselect.qml"  //"/ui/option/mainPanel.qml"
+        source: "/ui/option/mainPanel.qml"
+        asynchronous: true
+    }
 
+    Image {
+        property int time: 1000
 
+        id: game_transition
+        source: "qrc:/ui/home/game-transition.png"
+        anchors.verticalCenter: parent.verticalCenter
+        visible: true
+        width: pageloader.width
+        height: pageloader.height
+        fillMode: Image.PreserveAspectFit
+        asynchronous: true
+
+        x: parent.width
+
+        Behavior on x {
+            NumberAnimation {
+                duration: game_transition.time
+                easing.type: Easing.OutExpo
+            }
+        }
+
+        states: [
+            State {
+                name: "LOADING"
+                PropertyChanges {
+                    target: game_transition
+                    x: 0
+                }
+            },
+            State {
+                name: "COMPLETE"
+                PropertyChanges {
+                    target: game_transition
+                    x: parent.width
+                }
+            }
+        ]
     }
 
     Rectangle {
@@ -65,6 +111,7 @@ Item {
             anchors.centerIn: parent
         }
     }
+
     //press signal
     signal uppress_signal()
     signal downpress_signal()
