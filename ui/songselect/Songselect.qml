@@ -6,13 +6,11 @@ Item {
     id: songselect_container
 
     property variant songs_meta: dir.content
-    property int song_index: 0
+    property int song_index: select_list.currentIndex
     property int page_count: 4
     property bool select_expert: false
 
-    CustomSongselect {
-        id: dir
-    }
+    CustomSongselect { id: dir }
 
     Image {
         id: songselect_background
@@ -23,42 +21,21 @@ Item {
         anchors.fill: parent
     }
 
-    /*Row {
-        id: row_select
-        spacing: 0
-
-        width: parent.width
-        height: parent.height / page_count
+    Text {
+        id: songselect_title
+        text: "SONG  SELECT"
+        color: "white"
+        font.family: font_hemi_head.name
+        font.pixelSize: height * 0.8
+        style: "Raised"
+        styleColor: "#222222"
 
         anchors {
             horizontalCenter: parent.horizontalCenter
-            topMargin: parent.height / 10
+            bottom: select_bar.top
             top: parent.top
         }
-
-        Repeater {
-            model: page_count
-
-            Rectangle {
-                width: parent.width / page_count
-                height: parent.height
-
-                color: "white"
-
-                opacity: 0.75
-                border {
-                    width: 10
-                    color: "green"
-                }
-            }
-        }
-    }*/
-
-    /*Rectangle {
-        color: "red"
-        opacity: 0.1
-        anchors.fill: row_select
-    }*/
+    }
 
     Item {
         id: select_bar
@@ -75,31 +52,105 @@ Item {
         Component {
             id: list_delegate
 
-            Rectangle {
-                color: "white"
-                opacity: 0.5
-
+            Item {
                 width: select_bar.width / 5
                 height: select_bar.height
+
+                Rectangle {
+                    color: "#222222"
+                    opacity: 0.7
+                    anchors.fill: parent
+
+                    border {
+                        color: "transparent"
+                        width: 10
+                    }
+
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 0.1; color: "#222222" }
+                        GradientStop { position: 0.9; color: "#222222" }
+                        GradientStop { position: 1.0; color: "transparent" }
+                    }
+                }
 
                 Image {
                     source: "file:///" + songs_meta[index][0] + "/jacket.png"
 
                     width: height
                     height: parent.height
-
                     anchors.centerIn: parent
                     fillMode: Image.PreserveAspectFit
+                    opacity: 0.5
+                }
+
+                Item {
+                    height: parent.height
+                    width: height
+                    anchors.centerIn: parent
+                    Rectangle {
+                        anchors.fill: cov
+                        color: "#222222"
+                        opacity: 0.5
+                    }
+
+                    Text {
+                        id: cov
+                        text: songs_meta[index][2]
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.centerIn: parent
+                        wrapMode: Text.WordWrap
+                        width: parent.width
+                        font.family: font_Genjyuu_XP_bold.name
+                        font.pixelSize: parent.height / 8
+                    }
                 }
             }
         }
 
+        Component {
+            id: list_hl
+            Rectangle {
+                color: "transparent"
+                radius: 10
+                z: 3
+                border {
+                    color: "white"
+                    width: 10
+                }
+
+            }
+        }
+
         ListView {
-            anchors.fill: parent
+            id: select_list
+            x: parent.width * 0.4 - currentItem.x
+
+            height: parent.height
+            width: select_bar.width / 5 * songs_meta.length
             model: songs_meta
             delegate: list_delegate
             orientation: ListView.Horizontal
             interactive: false
+
+            highlight: list_hl
+            highlightMoveDuration: 0
+
+            Behavior on x {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            onCurrentIndexChanged: {
+                dir.stopPreview();
+                dir.playEffect();
+                player_timer.start();
+            }
         }
     }
 
@@ -119,16 +170,30 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            opacity: 0.8
+            opacity: 0.6
 
             gradient: Gradient {
                 orientation: Gradient.Horizontal
 
                 GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 0.1; color: songs_meta[song_index][5] }
-                GradientStop { position: 0.9; color: songs_meta[song_index][5] }
+                GradientStop { position: 0.1; color: songs_meta[song_index][5]
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+                }
+                GradientStop { position: 0.9; color: songs_meta[song_index][5]
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+                }
                 GradientStop { position: 1.0; color: "transparent" }
             }
+
+
         }
 
         Image {
@@ -221,31 +286,6 @@ Item {
         Item {
             id: difficulty_frame
 
-            Rectangle {
-                height: 50
-                width: 50
-                radius: 30
-
-                color: "cyan"
-
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: select_expert = !select_expert;
-                }
-
-                Text {
-                    id: changediff_button
-                    text: qsTr("CHNG")
-                    anchors.centerIn: parent
-                }
-            }
-
             anchors {
                 top: current_artist.bottom
                 topMargin: 40
@@ -267,7 +307,7 @@ Item {
 
                     Text {
                         text: ">"
-                        color: "white"
+                        color: "#222222"
                         font.family: font_hemi_head.name
                         font.pixelSize: parent.height * 0.8
                         visible: !select_expert
@@ -303,7 +343,7 @@ Item {
                     Text {
                         id: highscore_basic
                         text: "0000000"
-                        color: "white"
+                        color: "#222222"
                         font.family: font_hemi_head.name
                         font.pixelSize: parent.height * 0.8
 
@@ -322,7 +362,7 @@ Item {
 
                     Text {
                         text: ">"
-                        color: "white"
+                        color: "#222222"
                         font.family: font_hemi_head.name
                         font.pixelSize: parent.height * 0.8
                         visible: select_expert
@@ -358,7 +398,7 @@ Item {
                     Text {
                         id: highscore_expert
                         text: "0000000"
-                        color: "white"
+                        color: "#222222"
                         font.family: font_hemi_head.name
                         font.pixelSize: parent.height * 0.8
 
@@ -373,6 +413,15 @@ Item {
         }
     }
 
+    Timer {
+        id: player_timer
+        interval: 1500
+        repeat: false
+        onTriggered: {
+            dir.playPreview("file:///" + songs_meta[song_index][0] + "/audio.mp3", songs_meta[song_index][4])
+        }
+    }
+
     FontLoader {
         id: font_Genjyuu_XP_bold
         source: "/font/GenJyuuGothicX-P-Bold.ttf"
@@ -381,5 +430,29 @@ Item {
     FontLoader {
         id: font_hemi_head
         source: "/font/hemi-head-bd-it.ttf"
+    }
+
+    function next_song () {
+        select_list.incrementCurrentIndex()
+    }
+
+    function prev_song () {
+        select_list.decrementCurrentIndex()
+    }
+
+    function chng_diff () {
+        select_expert = !select_expert
+    }
+
+    Component.onCompleted: {
+        game_main.rightpress_signal.connect(next_song)
+        game_main.leftpress_signal.connect(prev_song)
+        game_main.downpress_signal.connect(chng_diff)
+    }
+
+    Component.onDestruction: {
+        game_main.rightpress_signal.disconnect(next_song)
+        game_main.leftpress_signal.disconnect(prev_song)
+        game_main.downpress_signal.disconnect(chng_diff)
     }
 }

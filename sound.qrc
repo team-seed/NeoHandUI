@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/songselect/songselect_click.wav</file>
+    </qresource>
+</RCC>

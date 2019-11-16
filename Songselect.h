@@ -12,6 +12,9 @@
 #include <QDebug>
 #include <QFile>
 
+#include "Player.h"
+#include "Effect_play.h"
+
 class Songselect : public QObject {
 
     Q_OBJECT
@@ -20,6 +23,7 @@ class Songselect : public QObject {
 public:
     Songselect () {
         reload_song_meta();
+        effect_player.init(10, QUrl("qrc:/ui/songselect/songselect_click.wav"));
     }
 
     void reload_song_meta() {
@@ -37,6 +41,7 @@ public:
         }
 
         m_content = songs_meta;
+        emit contentChanged();
     }
 
     QVariantList readContent() {
@@ -45,6 +50,19 @@ public:
 
 signals:
     void contentChanged();
+
+public slots:
+    void playPreview(QString path, int time) {
+        music_player.play_bgm(QUrl(path), true, time);
+    }
+
+    void stopPreview() {
+        music_player.stop_bgm();
+    }
+
+    void playEffect() {
+        effect_player.play();
+    }
 
 private:
     void test () {
@@ -139,6 +157,9 @@ private:
     QVariantList m_content;
     QString songs_path = "";
     QVariantList songs_meta;
+
+    Player music_player;
+    Effect_play effect_player;
 };
 
 #endif // SONGSELECT_H

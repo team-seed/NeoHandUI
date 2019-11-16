@@ -18,7 +18,8 @@ SOURCES += \
 
 RESOURCES += qml.qrc \
     fonts.qrc \
-    images.qrc
+    images.qrc \
+    sound.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -32,7 +33,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Effect_play.h \
+    Game.h \
+    Object_pool.h \
+    Player.h \
     Songselect.h
-    Effect_play.h
-    Game.h
-    Object_pool.h
