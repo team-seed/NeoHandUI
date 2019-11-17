@@ -92,26 +92,6 @@ Item {
         }
     }
 
-    Rectangle {
-        height: 50
-        width: 50
-        radius: 30
-        color: "cyan"
-        anchors {
-            top: parent.top
-            left: parent.left
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: Qt.quit();
-        }
-        Text {
-            id: exit_button
-            text: qsTr("EXIT")
-            anchors.centerIn: parent
-        }
-    }
-
     //press signal
     signal uppress_signal()
     signal downpress_signal()
@@ -121,6 +101,7 @@ Item {
     signal spacepress_signal()
     signal bksppress_signal()
     signal escpress_signal()
+
     //release signal
     signal uprelease_signal()
     signal downrelease_signal()

@@ -84,17 +84,18 @@ Item {
             font.family: font_Genjyuu_XP_bold.name
             font.pixelSize: parent.height * 0.75
             anchors.verticalCenter: parent.verticalCenter
+            //x: 0
 
             style: "Raised"
             styleColor: "#222222"
             NumberAnimation {
                 target: ttt
+                running: EXT.long(ttt.width)
                 property: "x"
                 loops: Animation.Infinite
                 duration: ttt.width * 12.5
-                from: meta__.width
+                from: EXT.long(ttt.width) ? meta__.width : 0
                 to: -ttt.width
-                running: EXT.long(ttt.width)
             }
         }
     }
@@ -131,7 +132,7 @@ Item {
                 property: "x"
                 loops: Animation.Infinite
                 duration: aaa.width * 15
-                from: meta__.width
+                from: EXT.long(aaa.width) ? meta__.width : 0
                 to: -aaa.width
                 running: EXT.long(aaa.width)
             }
@@ -154,7 +155,7 @@ Item {
 
     Rectangle {
         id: difficulty_frame
-        color: "firebrick"
+        color: expert ? "firebrick" : "forestgreen"
         radius: this.height / 2
         height: game_metadata_background.height / 10
         width: difficulty_content.width + this.height

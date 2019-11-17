@@ -13,7 +13,8 @@ Item {
     property int level: null
     property string bpm: "100" // to be changed
     property string bg: null
-    property double hispeed: 2.5
+    property double hispeed: 1
+    property bool expert: null
     property int score: 1000000
     property int mybest: 1000000
 
@@ -77,12 +78,24 @@ Item {
         difficulty = game_main.song_data[9] ? "EXPERT" : "BASIC"
         level = game_main.song_data[9] ? game_main.song_data[8] :game_main.song_data[7]
         bg = "file:///" + game_main.song_data[0] + "/bg.png"
+        expert = game_main.song_data[9] ? true : false
         //bpm = game_main.song_data[2]
+    }
+
+    function increase_hispeed() {
+        hispeed = Math.min(hispeed + 0.5, 10)
+    }
+
+    function decrease_hispeed() {
+        hispeed = Math.max(hispeed - 0.5, 0.5)
     }
 
     Component.onCompleted: {
         game_main.escpress_signal.connect(to_main)
+        game_main.uppress_signal.connect(increase_hispeed)
+        game_main.downpress_signal.connect(decrease_hispeed)
         set_value();
+
         game_transition.state = "COMPLETED"
     }
 

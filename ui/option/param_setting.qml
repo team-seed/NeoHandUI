@@ -2,8 +2,20 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 Column{
-    anchors.fill:parent
-    Header{ text:"PARAM SETTING" }
+    spacing: 20
+
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: parent.right
+        topMargin: 90
+        bottomMargin: 90
+        leftMargin: 160
+        rightMargin: 160
+    }
+
+    Header{ text:"PARAM  SETTING" }
 
     Component.onCompleted:{
         game_main.leftpress_signal.connect(tomain)
