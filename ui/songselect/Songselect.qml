@@ -418,7 +418,7 @@ Item {
         interval: 1500
         repeat: false
         onTriggered: {
-            dir.playPreview("file:///" + songs_meta[song_index][0] + "/audio.mp3", songs_meta[song_index][4])
+            dir.playPreview("file:///" + songs_meta[song_index][0] + "/audio.wav", songs_meta[song_index][4])
         }
     }
 

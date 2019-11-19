@@ -13,10 +13,10 @@ Item {
     property int level: null
     property string bpm: "100" // to be changed
     property string bg: null
-    property double hispeed: 1
+    property double hispeed: 1.0
     property bool expert: null
-    property int score: 1000000
-    property int mybest: 1000000
+    property int score: 0
+    property int mybest: 0
 
     property double lane_length: 760 + 32 * parent.height / 1080
     property double side_length: 760 + 32 * parent.height / 1080
@@ -54,7 +54,6 @@ Item {
 
         transform: Rotation {
             origin.x: game_area.width / 2
-            //origin.y: game_area.height / 2
             axis { x:1; y:0; z:0 } angle: lane_angle
         }
     }
@@ -74,27 +73,29 @@ Item {
     function set_value() {
         title = game_main.song_data[2]
         artist = game_main.song_data[1]
+        expert = game_main.song_data[8]// ? true : false
         jacket = "file:///" + game_main.song_data[0] + "/jacket.png"
-        difficulty = game_main.song_data[9] ? "EXPERT" : "BASIC"
-        level = game_main.song_data[9] ? game_main.song_data[8] :game_main.song_data[7]
+        difficulty = expert ? "EXPERT" : "BASIC"
+        level = expert ? game_main.song_data[7] :game_main.song_data[6]
         bg = "file:///" + game_main.song_data[0] + "/bg.png"
-        expert = game_main.song_data[9] ? true : false
+
         //bpm = game_main.song_data[2]
     }
 
     function increase_hispeed() {
-        hispeed = Math.min(hispeed + 0.5, 10)
+        if (hispeed < 10) hispeed += 0.5
     }
 
     function decrease_hispeed() {
-        hispeed = Math.max(hispeed - 0.5, 0.5)
+        if (hispeed > 0.5) hispeed -= 0.5
     }
 
     Component.onCompleted: {
+        set_value();
         game_main.escpress_signal.connect(to_main)
         game_main.uppress_signal.connect(increase_hispeed)
         game_main.downpress_signal.connect(decrease_hispeed)
-        set_value();
+
 
         game_transition.state = "COMPLETED"
     }
