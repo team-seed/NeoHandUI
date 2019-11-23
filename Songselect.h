@@ -65,20 +65,6 @@ public slots:
     }
 
 private:
-    void test () {
-        QJsonObject json;
-        json.insert("Name", "Qt");
-        json.insert("From", 1991);
-        json.insert("Cross Platform", true);
-
-        QJsonDocument document;
-        document.setObject(json);
-        QByteArray byteArray = document.toJson(QJsonDocument::Compact);
-        QString strJson(byteArray);
-
-        qDebug() << strJson;
-    }
-
     bool song_meta_parse (QString& filepath) {
         QVariantList list;
         list.append(filepath);

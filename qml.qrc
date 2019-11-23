@@ -20,5 +20,7 @@
         <file>ui/option/Header.qml</file>
         <file>ui/option/SelectBar.qml</file>
         <file>ui/home/Home.qml</file>
+        <file>ui/game/game_process_extension.js</file>
+        <file>ui/game/Click_note.qml</file>
     </qresource>
 </RCC>

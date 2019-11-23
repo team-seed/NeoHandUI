@@ -60,7 +60,7 @@ Item {
 
         Text {
             id: health_text
-            text: "NeoHand 2nd Generation: SEED OF LEGGENDARIA"
+            text: "NeoHand 2: SEED OF LEGGENDARIA"
             color: "#222222"
 
             font.pixelSize: health.height

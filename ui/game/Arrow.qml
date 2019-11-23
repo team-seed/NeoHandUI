@@ -11,7 +11,7 @@ Image {
     transitions: Transition {
         NumberAnimation {
             property: "x"
-            duration: 60000/135
+            duration: 500
             alwaysRunToEnd: true
         }
     }

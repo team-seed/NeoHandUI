@@ -1,17 +1,23 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtGraphicalEffects 1.0
+
+import custom.game.process 1.0
+import custom.game.timer 1.0
+
 import "game_extension.js" as EXT
 
 Item {
     id: game_container
+
+    property int start_interval: 4000
 
     property string title: null
     property string artist: null
     property string jacket: null
     property string difficulty: null
     property int level: null
-    property string bpm: "100" // to be changed
+    property string bpm: game_process.bpm_range
     property string bg: null
     property double hispeed: 1.0
     property bool expert: null
@@ -22,6 +28,10 @@ Item {
     property double side_length: 760 + 32 * parent.height / 1080
     property double lane_angle: 90 - 15 * parent.height / 1080
     property double side_angle: 89.875 - 12.875 * parent.height / 1080
+
+    CustomGameProcess { id: game_process }
+
+    CustomGameTimer { id: game_customtimer }
 
     Combo {
         id: game_core
@@ -49,6 +59,7 @@ Item {
         }
 
         Lane {
+            id: game_lane_outside
             anchors.fill: parent
         }
 
@@ -73,13 +84,11 @@ Item {
     function set_value() {
         title = game_main.song_data[2]
         artist = game_main.song_data[1]
-        expert = game_main.song_data[8]// ? true : false
+        expert = game_main.song_data[8]
         jacket = "file:///" + game_main.song_data[0] + "/jacket.png"
         difficulty = expert ? "EXPERT" : "BASIC"
         level = expert ? game_main.song_data[7] :game_main.song_data[6]
         bg = "file:///" + game_main.song_data[0] + "/bg.png"
-
-        //bpm = game_main.song_data[2]
     }
 
     function increase_hispeed() {
@@ -90,17 +99,46 @@ Item {
         if (hispeed > 0.5) hispeed -= 0.5
     }
 
+    function get_chart (list) {
+        chart = list;
+    }
+
     Component.onCompleted: {
         set_value();
+        game_process.song_chart_parse((game_main.song_data[0] + (expert ? "/expert.json" : "/basic.json")));
+        game_lane_outside.make_chart();
+        game_process.set_song("file:///" + game_main.song_data[0] + "/audio.wav");
+
+
         game_main.escpress_signal.connect(to_main)
         game_main.uppress_signal.connect(increase_hispeed)
         game_main.downpress_signal.connect(decrease_hispeed)
-
+        //game_main.spacepress_signal.connect(game_lane_outside.temp)
+        game_main.spacepress_signal.connect(hit)
 
         game_transition.state = "COMPLETED"
+
+
+        game_customtimer.start_looping()
+        game_start.start()
+        //console.log(game_customtimer.clock)
     }
 
     Component.onDestruction: {
         game_main.escpress_signal.disconnect(to_main)
+        game_main.uppress_signal.disconnect(increase_hispeed)
+        game_main.downpress_signal.disconnect(decrease_hispeed)
+
+        game_main.spacepress_signal.disconnect(hit)
     }
+
+    Timer {
+        id: game_start
+        interval: start_interval
+        onTriggered: {
+            game_process.startGame()
+        }
+    }
+
+    signal hit ()
 }

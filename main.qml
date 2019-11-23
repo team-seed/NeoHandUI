@@ -11,6 +11,7 @@ Item {
     height: Screen.height
 
     property variant song_data: null
+    property int global_offset: 325
 
     MouseArea {
         anchors.fill: parent

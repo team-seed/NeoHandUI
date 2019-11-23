@@ -1,13 +1,19 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+import "game_process_extension.js" as GP
+
 Item {
     id: lane_full
+    property alias game_lane: lane_full
+
     property int side_width: parent.width / 40
-    property int judge_height: side_width
+    property int judge_height: side_width //* 2
     property int separater_width: 1
     property int lane_count: 4
     property int partitions_per_lane: 4
+    property double part_width: lane_row.width / lane_count / partitions_per_lane
+    property double judge_position: parent.height / 12
 
     Row {
         id: lane_row
@@ -23,29 +29,28 @@ Item {
             id: lane_repeater
             model: lane_count
 
-            Rectangle {
+            /*Item {
                 id: lane
                 width: parent.width / lane_count
-                height: parent.height
-                color: "transparent"
+                height: parent.height*/
 
                 Row {
-                    anchors.fill: parent
+                    //anchors.fill: parent
+                    width: parent.width / lane_count
+                    height: parent.height
                     spacing: 0
                     Repeater {
                         id: partitions_repeater
                         model: partitions_per_lane
 
-                        Rectangle {
+                        Item {
                             id: part
                             width: parent.width / partitions_per_lane
                             height: parent.height
-                            color: "transparent"
-
                         }
                     }
                 }
-            }
+            //}
         }
     }
 
@@ -139,7 +144,7 @@ Item {
         id: judge_line
 
         color: "#353535"
-        radius: 30
+        //radius: 30
         opacity: 0.8
 
         height: judge_height
@@ -149,7 +154,26 @@ Item {
             left: lane_side_left.right
             right: lane_side_right.left
             bottom: parent.bottom
-            bottomMargin: parent.height / 12
+            bottomMargin: judge_position - height
+            verticalCenterOffset: -height
         }
     }
+
+    function make_chart () {
+        game_process.chart.forEach(value => {
+            if (Array.isArray(value)) {
+                switch (value[0]) {
+                case 0:
+                    GP.generateNote(value[1], value[2], value[3], value[4], value[5])
+                    break
+                case 1: break
+                case 2: break
+                }
+            }
+            else {
+                //console.log(value);
+            }
+        });
+    }
+
 }

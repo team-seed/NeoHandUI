@@ -202,7 +202,7 @@ Item {
 
     Text {
         id: song_bpm
-        text: "BPM  " + bpm
+        text: "BPM  " + bpm.toString()
         color: "white"
         font.family: font_hemi_head.name
         font.pixelSize: difficulty_name.font.pixelSize
