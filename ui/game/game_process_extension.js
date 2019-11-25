@@ -148,11 +148,16 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
 
         dynamicObject.bpm = bpm
         dynamicObject.gesture = gest
-        dynamicObject.anchors.leftMargin = part_width * e_left
 
-        dynamicObject.right_top = part_width * (e_right - e_left)
-        dynamicObject.right_bottom = part_width * (s_right - e_left)
-        dynamicObject.left_bottom = part_width * (s_left - e_left)
+        var leftpoint = Math.min(e_left, s_left)
+
+        dynamicObject.anchors.leftMargin = part_width * leftpoint
+
+        dynamicObject.left_top = part_width * (e_left - leftpoint)
+        dynamicObject.left_bottom = part_width * (s_left - leftpoint)
+        dynamicObject.right_top = part_width * (e_right - leftpoint)
+        dynamicObject.right_bottom = part_width * (s_right - leftpoint)
+
         //dynamicObject.anchors.rightMargin = part_width * (16 - right)
 
         switch (gest) {
