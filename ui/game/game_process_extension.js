@@ -9,7 +9,7 @@ function generateNote(gest, bpm, time, left, right) {
 
     if (note_component.status == Component.Ready) {
         var dynamicObject
-        dynamicObject = note_component.createObject(lane_full)
+        dynamicObject = note_component.createObject(hold_note_container)
 
         if (dynamicObject == null) {
             console.log("error on creating note")
@@ -17,8 +17,8 @@ function generateNote(gest, bpm, time, left, right) {
             return false
         }
 
-        dynamicObject.anchors.left = lane_row.left
-        dynamicObject.anchors.right = lane_row.right
+        dynamicObject.anchors.left = hold_note_container.left
+        dynamicObject.anchors.right = hold_note_container.right
 
         dynamicObject.time = time + start_interval + global_offset
         dynamicObject.bpm = bpm
@@ -103,7 +103,7 @@ function generateBarline (bpm, time) {
 
     if (barline_component.status == Component.Ready) {
         var dynamicObject
-        dynamicObject = barline_component.createObject(lane_full)
+        dynamicObject = barline_component.createObject(hold_note_container)
 
         if (dynamicObject == null) {
             console.log("error on creating swipe")
@@ -111,8 +111,8 @@ function generateBarline (bpm, time) {
             return false
         }
 
-        dynamicObject.anchors.left = lane_row.left
-        dynamicObject.anchors.right = lane_row.right
+        dynamicObject.anchors.left = hold_note_container.left
+        dynamicObject.anchors.right = hold_note_container.right
 
         dynamicObject.time = time + start_interval + global_offset
         dynamicObject.bpm = bpm
@@ -132,7 +132,7 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
 
     if (hold_component.status == Component.Ready) {
         var dynamicObject
-        dynamicObject = hold_component.createObject(lane_full)
+        dynamicObject = hold_component.createObject(hold_note_container)
 
         if (dynamicObject == null) {
             console.log("error on creating note")
@@ -140,7 +140,7 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
             return false
         }
 
-        dynamicObject.anchors.left = lane_row.left
+        dynamicObject.anchors.left = hold_note_container.left
         //dynamicObject.anchors.right = lane_row.right
 
         dynamicObject.start_time = s_time + start_interval + global_offset

@@ -21,6 +21,7 @@ Shape {
     visible: y + shape_height > 0
 
     y: (bpm * hispeed * (game_customtimer.clock - end_time)) / parent.height  + (parent.height + judge_height - judge_position)
+
     ShapePath {
         id: sPath
         strokeColor: "whitesmoke"

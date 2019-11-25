@@ -15,6 +15,18 @@ Item {
     property double part_width: lane_row.width / lane_count / partitions_per_lane
     property double judge_position: parent.height / 12
 
+    Rectangle {
+        id: object_mask
+        visible: false
+        anchors.fill: lane_row
+        gradient: Gradient {
+            GradientStop { position: 0.00; color: "transparent" }
+            GradientStop { position: 0.20; color: "white" }
+            GradientStop { position: 0.95; color: "white" }
+            GradientStop { position: 0.99; color: "transparent" }
+        }
+    }
+
     Item {
         id: lane_row
         height: parent.height
@@ -99,7 +111,6 @@ Item {
                 antialiasing: true
                 height: parent.height
                 width: separater_width
-                //color: "#BBBBBB"
                 gradient: Gradient {
                     GradientStop { position: 0.00; color: "transparent" }
                     GradientStop { position: 0.30; color: "#BBBBBB" }
@@ -114,7 +125,6 @@ Item {
         id: judge_line
 
         color: "#353535"
-        //radius: 30
         opacity: 0.8
 
         height: judge_height
@@ -129,6 +139,16 @@ Item {
         }
     }
 
+    Item {
+        id: hold_note_container
+        anchors.fill: lane_row
+
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: object_mask
+        }
+    }
+
     function make_chart () {
         game_process.chart.reverse().forEach(value => {
             if (Array.isArray(value)) {
@@ -137,7 +157,6 @@ Item {
                     GP.generateNote(value[1], value[2], value[3], value[4], value[5])
                     break
                 case 1:
-                    console.log(value)
                     GP.generateHold(value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8])
                     break
                 case 2:
