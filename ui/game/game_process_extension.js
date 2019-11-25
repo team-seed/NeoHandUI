@@ -1,5 +1,6 @@
 var note_component
 var swipe_component
+var barline_component
 
 function generateNote(gest, bpm, time, left, right) {
     if (note_component == null)
@@ -86,6 +87,35 @@ function generateSwipe (dirc, bpm, time, left, right) {
     else {
         console.log("error on loading swipe")
         console.log(swipe_component.errorString())
+        return false
+    }
+
+    return true
+}
+
+function generateBarline (bpm, time) {
+    if (barline_component == null)
+        barline_component = Qt.createComponent("Barline.qml");
+
+    if (barline_component.status == Component.Ready) {
+        var dynamicObject
+        dynamicObject = barline_component.createObject(lane_full)
+
+        if (dynamicObject == null) {
+            console.log("error on creating swipe")
+            console.log(barline_component.errorString())
+            return false
+        }
+
+        dynamicObject.anchors.left = lane_row.left
+        dynamicObject.anchors.right = lane_row.right
+
+        dynamicObject.time = time + start_interval + global_offset
+        dynamicObject.bpm = bpm
+    }
+    else {
+        console.log("error on loading swipe")
+        console.log(barline_component.errorString())
         return false
     }
 

@@ -16,7 +16,7 @@ class Game_timer : public QObject {
 public:
     Game_timer() {
         timer.setTimerType(Qt::PreciseTimer);
-        timer.setInterval(1);
+        timer.setInterval(2);
         QObject::connect(&timer, SIGNAL(timeout()), this, SIGNAL(clockChanged()));
     }
 
@@ -59,7 +59,6 @@ signals:
     void clockChanged();
 
 private:
-
 
     Player music_player;
     QTime m_clock;

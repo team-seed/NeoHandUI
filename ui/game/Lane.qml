@@ -125,7 +125,7 @@ Item {
             right: lane_side_right.left
             bottom: parent.bottom
             bottomMargin: judge_position - height
-            verticalCenterOffset: height
+            verticalCenterOffset: -height
         }
     }
 
@@ -141,7 +141,8 @@ Item {
                     GP.generateSwipe(value[6], value[2], value[3], value[4], value[5])
                     break
                 case -1:
-                    console.log("line"); break
+                    GP.generateBarline(value[1], value[2]);
+                    break
                 }
             }
             else {
