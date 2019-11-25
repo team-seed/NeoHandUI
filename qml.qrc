@@ -22,5 +22,6 @@
         <file>ui/home/Home.qml</file>
         <file>ui/game/game_process_extension.js</file>
         <file>ui/game/Click_note.qml</file>
+        <file>ui/game/Swipe_note.qml</file>
     </qresource>
 </RCC>

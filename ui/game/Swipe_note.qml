@@ -4,9 +4,11 @@ import QtGraphicalEffects 1.0
 Rectangle {
     property int time: 0
     property double bpm: 120.0
+    property int dirc: 0
+
     property int window: game_customtimer.clock - time
 
-    id: click
+    id: swipe_note
     height: judge_height
     antialiasing: true
 
@@ -19,19 +21,19 @@ Rectangle {
         width: 2
     }
 
-    function check_hit () {
+    function check_swipe () {
         if (Math.abs(window) < 40) {
 //            console.log("exact, " + window)
-            click.destroy()
+            swipe_note.destroy()
         }
         else if (Math.abs(window) < 80) {
 //            if (window > 0) console.log("late, " + window)
 //            else console.log("early, " + window)
-            click.destroy()
+            swipe_note.destroy()
         }
     }
 
     Component.onCompleted: {
-        hit.connect(check_hit)
+        swipe.connect(check_swipe)
     }
 }

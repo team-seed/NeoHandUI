@@ -99,29 +99,25 @@ Item {
         if (hispeed > 0.5) hispeed -= 0.5
     }
 
-    function get_chart (list) {
-        chart = list;
-    }
-
     Component.onCompleted: {
         set_value();
         game_process.song_chart_parse((game_main.song_data[0] + (expert ? "/expert.json" : "/basic.json")));
         game_lane_outside.make_chart();
-        game_process.set_song("file:///" + game_main.song_data[0] + "/audio.wav");
-
+        game_customtimer.set_song("file:///" + game_main.song_data[0] + "/audio.wav");
 
         game_main.escpress_signal.connect(to_main)
         game_main.uppress_signal.connect(increase_hispeed)
         game_main.downpress_signal.connect(decrease_hispeed)
-        //game_main.spacepress_signal.connect(game_lane_outside.temp)
+
         game_main.spacepress_signal.connect(hit)
+        game_main.enterpress_signal.connect(swipe)
 
         game_transition.state = "COMPLETED"
 
+        game_customtimer.startGame(start_interval);
+        //game_customtimer.start_looping()
 
-        game_customtimer.start_looping()
-        game_start.start()
-        //console.log(game_customtimer.clock)
+        //game_start.start()
     }
 
     Component.onDestruction: {
@@ -130,15 +126,17 @@ Item {
         game_main.downpress_signal.disconnect(decrease_hispeed)
 
         game_main.spacepress_signal.disconnect(hit)
+        game_main.enterpress_signal.disconnect(swipe)
     }
 
-    Timer {
+    /*Timer {
         id: game_start
         interval: start_interval
         onTriggered: {
             game_process.startGame()
         }
-    }
+    }*/
 
     signal hit ()
+    signal swipe ()
 }

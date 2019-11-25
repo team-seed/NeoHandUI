@@ -15,42 +15,12 @@ Item {
     property double part_width: lane_row.width / lane_count / partitions_per_lane
     property double judge_position: parent.height / 12
 
-    Row {
+    Item {
         id: lane_row
         height: parent.height
         anchors {
             left: lane_side_left.right
             right: lane_side_right.left
-        }
-
-        spacing: 0
-
-        Repeater {
-            id: lane_repeater
-            model: lane_count
-
-            /*Item {
-                id: lane
-                width: parent.width / lane_count
-                height: parent.height*/
-
-                Row {
-                    //anchors.fill: parent
-                    width: parent.width / lane_count
-                    height: parent.height
-                    spacing: 0
-                    Repeater {
-                        id: partitions_repeater
-                        model: partitions_per_lane
-
-                        Item {
-                            id: part
-                            width: parent.width / partitions_per_lane
-                            height: parent.height
-                        }
-                    }
-                }
-            //}
         }
     }
 
@@ -155,7 +125,7 @@ Item {
             right: lane_side_right.left
             bottom: parent.bottom
             bottomMargin: judge_position - height
-            verticalCenterOffset: -height
+            verticalCenterOffset: height
         }
     }
 
@@ -167,11 +137,15 @@ Item {
                     GP.generateNote(value[1], value[2], value[3], value[4], value[5])
                     break
                 case 1: break
-                case 2: break
+                case 2:
+                    GP.generateSwipe(value[6], value[2], value[3], value[4], value[5])
+                    break
+                case -1:
+                    console.log("line"); break
                 }
             }
             else {
-                //console.log(value);
+                console.log(value);
             }
         });
     }

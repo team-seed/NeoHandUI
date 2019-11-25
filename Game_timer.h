@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QDebug>
 
+#include "Player.h"
+
 class Game_timer : public QObject {
 
     Q_OBJECT
@@ -14,7 +16,7 @@ class Game_timer : public QObject {
 public:
     Game_timer() {
         timer.setTimerType(Qt::PreciseTimer);
-        timer.setInterval(2);
+        timer.setInterval(1);
         QObject::connect(&timer, SIGNAL(timeout()), this, SIGNAL(clockChanged()));
     }
 
@@ -31,19 +33,35 @@ public:
     }
 
 public slots:
+    void set_song(QString audio_path) {
+        music_player.set_song(audio_path, false, 0);
+    }
+
+    void startGame(int time) {
+        start_looping();
+        QTimer::singleShot(time, Qt::PreciseTimer, this, SLOT(playMusic()));
+    }
+
     void start_looping () {
-        start();
         timer.start();
+        start();
     }
 
     void stop_looping () {
         timer.stop();
     }
 
+    void playMusic() {
+        music_player.play_song();
+    }
+
 signals:
     void clockChanged();
 
 private:
+
+
+    Player music_player;
     QTime m_clock;
     QTimer timer;
 };

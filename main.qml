@@ -11,8 +11,7 @@ Item {
     height: Screen.height
 
     property variant song_data: null
-    property int global_offset: 325
-
+    property int global_offset: 245
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.BlankCursor

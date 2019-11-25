@@ -51,21 +51,9 @@ signals:
     void chartChanged();
 
 public slots:
-    void set_song(QString audio_path) {
-        music_player.set_song(audio_path, false, 0);
-    }
-
-    void startGame() {
-        playMusic();
-    }
-
     bool song_chart_parse (QString filepath);
 
 private:
-    void playMusic() {
-        music_player.play_song();
-    }
-
     Player music_player;
     QList<chart_section> song_chart;
     QList<QList<int>> note_list;

@@ -183,7 +183,14 @@ void Game_process::chart_toList() {
         }
 
         for (double i = song_chart[section].offset; i < max_time; i += beat_time) {
-            data.push_back(qRound(i));
+            QVariantList beat_line;
+            beat_line.clear();
+
+            beat_line.push_back(-1);
+            beat_line.push_back(song_chart[section].bpm);
+            beat_line.push_back(qRound(i));
+
+            data.push_back(beat_line);
         }
     }
 
