@@ -38,6 +38,7 @@ Item {
 
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
+        z: 10
     }
 
     Image {

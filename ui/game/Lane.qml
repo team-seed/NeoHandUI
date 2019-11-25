@@ -130,13 +130,16 @@ Item {
     }
 
     function make_chart () {
-        game_process.chart.forEach(value => {
+        game_process.chart.reverse().forEach(value => {
             if (Array.isArray(value)) {
                 switch (value[0]) {
                 case 0:
                     GP.generateNote(value[1], value[2], value[3], value[4], value[5])
                     break
-                case 1: break
+                case 1:
+                    console.log(value)
+                    GP.generateHold(value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8])
+                    break
                 case 2:
                     GP.generateSwipe(value[6], value[2], value[3], value[4], value[5])
                     break

@@ -8,7 +8,7 @@ Rectangle {
     property int window: game_customtimer.clock - time
 
     id: barline
-    height: 2
+    height: 1
     antialiasing: true
     color: "white"
 

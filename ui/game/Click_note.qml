@@ -5,6 +5,7 @@ Rectangle {
     property int time: 0
     property double bpm: 120.0
     property int window: game_customtimer.clock - time
+    property int gesture: 0
 
     id: click
     height: judge_height

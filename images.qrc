@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>jacket.png</file>
         <file>ui/game/arrow.png</file>
         <file>ui/home/game-transition.png</file>
+        <file>images/swipe_arrow.png</file>
     </qresource>
 </RCC>

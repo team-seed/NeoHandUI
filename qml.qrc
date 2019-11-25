@@ -24,5 +24,6 @@
         <file>ui/game/Click_note.qml</file>
         <file>ui/game/Swipe_note.qml</file>
         <file>ui/game/Barline.qml</file>
+        <file>ui/game/Hold_note.qml</file>
     </qresource>
 </RCC>
