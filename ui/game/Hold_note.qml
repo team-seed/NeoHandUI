@@ -25,7 +25,7 @@ Shape {
     ShapePath {
         id: sPath
         strokeColor: "whitesmoke"
-        strokeWidth: 2
+        strokeWidth: 4
         fillColor: shape_color
 
         startX: left_top; startY: 0
@@ -34,4 +34,6 @@ Shape {
         PathLine { x: left_bottom; y: shape_height }
         PathLine { x: left_top; y: 0 }
     }
+
+
 }

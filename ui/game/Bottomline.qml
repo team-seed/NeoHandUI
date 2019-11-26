@@ -56,6 +56,13 @@ Item {
                 horizontalCenter: parent.horizontalCenter
                 verticalCenter: parent.verticalCenter
             }
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.InOutSine
+                }
+            }
         }
 
         Text {
@@ -70,55 +77,14 @@ Item {
         }
     }
 
-    Rectangle {
-        height: 50
-        width: 50
-        radius: 30
-
-        color: "cyan"
-
-        anchors {
-            top: parent.top
-            left: parent.left
-        }
-
-        MouseArea {
-            anchors.fill: parent
-
-            onClicked: function() {
-                health.health_percentage -= 0.05
-            };
-        }
-
-        Text {
-            text: qsTr("DECR")
-            anchors.centerIn: parent
-        }
+    function gain_health () {
+        health.health_percentage = Math.min (1, health.health_percentage + 0.05);
     }
 
-    Rectangle {
-        height: 50
-        width: 50
-        radius: 30
-
-        color: "cyan"
-
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-        }
-
-        MouseArea {
-            anchors.fill: parent
-
-            onClicked: function() {
-                health.health_percentage += 0.05
-            };
-        }
-
-        Text {
-            text: qsTr("INCR")
-            anchors.centerIn: parent
+    function lose_health () {
+        health.health_percentage = Math.min (0, health.health_percentage - 0.05);
+        if (health.health_percentage == 0) {
+            game_container.gameover();
         }
     }
 

@@ -2,6 +2,7 @@ var note_component
 var swipe_component
 var barline_component
 var hold_component
+var mark_component
 
 function generateNote(gest, bpm, time, left, right) {
     if (note_component == null)
@@ -79,11 +80,11 @@ function generateSwipe (dirc, bpm, time, left, right) {
             dynamicObject.arrow_angle = 90
             break
         case 2:
-            dynamicObject.color = "darkorchid"
+            dynamicObject.color = "deepskyblue"
             dynamicObject.arrow_angle = 180
             break
         case 3:
-            dynamicObject.color = "darkseagreen"
+            dynamicObject.color = "limegreen"
             dynamicObject.arrow_angle = 0
             break
         }
@@ -172,6 +173,41 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
     else {
         console.log("error on loading note")
         console.log(hold_component.errorString())
+        return false
+    }
+
+    return true
+}
+
+function generateMark (timing) {
+    if (mark_component == null)
+        mark_component = Qt.createComponent("Hit_mark.qml");
+
+    if (mark_component.status == Component.Ready) {
+        var dynamicObject
+        dynamicObject = mark_component.createObject(lane_full)
+
+        if (dynamicObject == null) {
+            console.log("error on creating mark")
+            console.log(mark_component.errorString())
+            return false
+        }
+
+        dynamicObject.anchors.horizontalCenter = parent.horizontalCenter
+
+        if (timing < 50) {
+            dynamicObject.source = "qrc:/images/exact.png"
+        }
+        else if (timing < 100) {
+            dynamicObject.source = "qrc:/images/close.png"
+        }
+        else {
+            dynamicObject.source = "qrc:/images/break.png"
+        }
+    }
+    else {
+        console.log("error on loading mark")
+        console.log(mark_component.errorString())
         return false
     }
 

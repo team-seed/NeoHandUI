@@ -49,6 +49,10 @@ Item {
         fillMode: Image.PreserveAspectCrop
     }
 
+    Sideleft { id: game_screen_side_left }
+
+    Sideright { id: game_screen_side_right }
+
     Item {
         id: game_area
         antialiasing: true
@@ -70,13 +74,11 @@ Item {
         }
     }
 
-    Sideleft {}
-
-    Sideright {}
-
     Metadata {}
 
-    Bottomline {}
+    Bottomline {
+        id: life
+    }
 
     function to_main () {
         pageloader.source = "/ui/option/mainPanel.qml"
@@ -100,6 +102,8 @@ Item {
         if (hispeed > 0.5) hispeed -= 0.5
     }
 
+    function gameover () {}
+
     Component.onCompleted: {
         set_value();
         game_process.song_chart_parse((game_main.song_data[0] + (expert ? "/expert.json" : "/basic.json")));
@@ -116,9 +120,6 @@ Item {
         game_transition.state = "COMPLETED"
 
         game_customtimer.startGame(start_interval);
-        //game_customtimer.start_looping()
-
-        //game_start.start()
     }
 
     Component.onDestruction: {
@@ -129,14 +130,6 @@ Item {
         game_main.spacepress_signal.disconnect(hit)
         game_main.enterpress_signal.disconnect(swipe)
     }
-
-    /*Timer {
-        id: game_start
-        interval: start_interval
-        onTriggered: {
-            game_process.startGame()
-        }
-    }*/
 
     signal hit ()
     signal swipe ()

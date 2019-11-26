@@ -11,8 +11,12 @@ Image {
     transitions: Transition {
         NumberAnimation {
             property: "x"
-            duration: 500
-            alwaysRunToEnd: true
+            duration: 1000
+            //alwaysRunToEnd: true
+            onStopped: {
+                console.log("destroyed")
+                arrow_img.destroy()
+            }
         }
     }
 

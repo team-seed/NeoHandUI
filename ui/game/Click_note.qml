@@ -1,5 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import "game_process_extension.js" as GP
 
 Rectangle {
     property int time: 0
@@ -20,19 +21,26 @@ Rectangle {
         width: 2
     }
 
-    function check_hit () {
-        if (Math.abs(window) < 40) {
-//            console.log("exact, " + window)
-            click.destroy()
-        }
-        else if (Math.abs(window) < 80) {
-//            if (window > 0) console.log("late, " + window)
-//            else console.log("early, " + window)
+    onWindowChanged: {
+        if (window > 150) {
+            GP.generateMark(window)
             click.destroy()
         }
     }
 
+    function check_hit () {
+        var timing = Math.abs(window)
+        if (timing > 150) return
+
+        GP.generateMark(timing)
+        click.destroy()
+    }
+
     Component.onCompleted: {
         hit.connect(check_hit)
+    }
+
+    Component.onDestruction: {
+        hit.disconnect(check_hit)
     }
 }

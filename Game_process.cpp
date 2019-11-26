@@ -125,7 +125,7 @@ void Game_process::chart_toList() {
     data.clear();
 
     for (int section = 0; section < song_chart.size(); section++) {
-        double beat_time = 60000 / song_chart[section].bpm * song_chart[section].beats;
+        double beat_time = 60000 * song_chart[section].beats / song_chart[section].bpm;
 
         int max_time = 0;
 
