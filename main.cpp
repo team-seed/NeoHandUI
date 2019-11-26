@@ -6,6 +6,7 @@
 #include "Game_process.h"
 #include "Game_timer.h"
 #include "Songselect.h"
+#include "gesture.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Songselect>("custom.songselect", 1, 0, "CustomSongselect");
     qmlRegisterType<Game_process>("custom.game.process", 1, 0, "CustomGameProcess");
     qmlRegisterType<Game_timer>("custom.game.timer", 1, 0, "CustomGameTimer");
+    qmlRegisterType<Gesture>("gesture",1,0,"Gesture");
 
     QApplication app(argc, argv);
     Game *widget=new Game();

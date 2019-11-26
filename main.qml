@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-
+import gesture 1.0
 import "./ui/game"
 
 Item {
@@ -12,6 +12,9 @@ Item {
 
     property variant song_data: null
     property int global_offset: 245
+
+    Gesture { id: gesture }
+
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.BlankCursor
@@ -112,4 +115,20 @@ Item {
     signal bksprelease_signal()
     signal escrelease_signal()
 
+    //hand tract signal
+    signal up_swipe()
+    signal down_swipe()
+    signal left_swipe()
+    signal right_swipe()
+    signal trigger()
+    signal untrigger()
+
+    Component.onCompleted: {
+        gesture.up_swipe.connect(up_swipe)
+        gesture.down_swipe.connect(down_swipe)
+        gesture.left_swipe.connect(left_swipe)
+        gesture.right_swipe.connect(right_swipe)
+        gesture.trigger.connect(trigger)
+        gesture.untrigger.connect(untrigger)
+    }
 }

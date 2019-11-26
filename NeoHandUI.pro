@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         Game_process.cpp \
+        gesture.cpp \
         main.cpp
 
 RESOURCES += qml.qrc \
@@ -40,4 +41,5 @@ HEADERS += \
     Game_timer.h \
     Object_pool.h \
     Player.h \
-    Songselect.h
+    Songselect.h \
+    gesture.h
