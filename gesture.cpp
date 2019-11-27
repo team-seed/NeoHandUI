@@ -68,16 +68,10 @@ void Gesture::check_type(){
     if(cur_id!=last_id){
 
         if(cur_id == -1)
-        {
             emit untrigger();
-            qDebug()<<cur_id;
-        }
 
-        else if( 0 <= cur_id && cur_id < 10 && last_id == -1 ) //ges1 介於0~9
-        {
+        else if( 0 <= cur_id && cur_id < 10) //ges1 介於0~10
             emit trigger();
-            qDebug()<<cur_id;
-        }
 
         if( (cur_x-last_x) > x_shift )
             emit Xchanged();
