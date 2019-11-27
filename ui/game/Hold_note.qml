@@ -34,6 +34,4 @@ Shape {
         PathLine { x: left_bottom; y: shape_height }
         PathLine { x: left_top; y: 0 }
     }
-
-
 }

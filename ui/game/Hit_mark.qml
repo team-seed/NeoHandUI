@@ -1,36 +1,39 @@
 import QtQuick 2.12
 
-Image {
-    property int y_offset: 0
 
-    id: mark_image
+Item {
+    property string src: ""
 
-    height: 30
-    fillMode: Image.PreserveAspectFit
-    opacity: 0.75
+    id: mark
     y: judge_line.y
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    Image {
+        id: mark_image
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        source: src
+        height: 30
+        fillMode: Image.PreserveAspectFit
+        opacity: 0.75
+    }
 
     SequentialAnimation {
         running: true
+        alwaysRunToEnd: true
+
         NumberAnimation {
-            target: mark_image
+            target: mark
             property: "y"
             to: judge_line.y - 50
             easing.type: Easing.OutExpo
-            duration: 200
+            duration: 250
         }
         NumberAnimation {
-            target: mark_image
+            target: mark
             property: "opacity"
             to: 0
-            duration: 200
-            //easing.type: Easing.OutExpo
-        }
-        onRunningChanged: {
-            if (!running) {
-                console.log("destroyed")
-                mark_image.destroy()
-            }
+            duration: 250
         }
     }
 }

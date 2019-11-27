@@ -179,7 +179,7 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
     return true
 }
 
-function generateMark (timing) {
+function generateHitMark (type, timing) {
     if (mark_component == null)
         mark_component = Qt.createComponent("Hit_mark.qml");
 
@@ -193,17 +193,18 @@ function generateMark (timing) {
             return false
         }
 
-        dynamicObject.anchors.horizontalCenter = parent.horizontalCenter
+        switch (type) {
+        case 0:
+            if (timing < 50) dynamicObject.src = "qrc:/images/exact.png"
+            else if (timing < 100) dynamicObject.src = "qrc:/images/close.png"
+            else dynamicObject.src = "qrc:/images/break.png"
+            break
+        case 1:
+            if (timing < 150) dynamicObject.src = "qrc:/images/exact.png"
+            else dynamicObject.src = "qrc:/images/break.png"
+        }
 
-        if (timing < 50) {
-            dynamicObject.source = "qrc:/images/exact.png"
-        }
-        else if (timing < 100) {
-            dynamicObject.source = "qrc:/images/close.png"
-        }
-        else {
-            dynamicObject.source = "qrc:/images/break.png"
-        }
+        dynamicObject.destroy(1000)
     }
     else {
         console.log("error on loading mark")

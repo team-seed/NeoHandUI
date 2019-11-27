@@ -23,7 +23,7 @@ Rectangle {
 
     onWindowChanged: {
         if (window > 150) {
-            GP.generateMark(window)
+            GP.generateHitMark(0, window)
             click.destroy()
         }
     }
@@ -32,7 +32,7 @@ Rectangle {
         var timing = Math.abs(window)
         if (timing > 150) return
 
-        GP.generateMark(timing)
+        GP.generateHitMark(0, timing)
         click.destroy()
     }
 

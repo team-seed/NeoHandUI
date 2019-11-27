@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 
+import "game_process_extension.js" as GP
+
 Rectangle {
     property int time: 0
     property double bpm: 120.0
@@ -65,25 +67,32 @@ Rectangle {
         }
 
         transform: Rotation {
-            origin.x: pos //shade.width / 2
+            origin.x: pos
             origin.y: shade.height
             axis { x:1; y:0; z:0 } angle: twist_angle
         }
     }
 
-    function check_swipe () {
-        if (Math.abs(window) < 40) {
-//            console.log("exact, " + window)
-            swipe_note.destroy()
-        }
-        else if (Math.abs(window) < 80) {
-//            if (window > 0) console.log("late, " + window)
-//            else console.log("early, " + window)
+    onWindowChanged: {
+        if (window > 150) {
+            GP.generateHitMark(1, window)
             swipe_note.destroy()
         }
     }
 
+    function check_swipe () {
+        var timing = Math.abs(window)
+        if (timing > 150) return
+
+        GP.generateHitMark(1, timing)
+        swipe_note.destroy()
+    }
+
     Component.onCompleted: {
         swipe.connect(check_swipe)
+    }
+
+    Component.onDestruction: {
+        swipe.disconnect(check_swipe)
     }
 }
