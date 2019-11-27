@@ -84,19 +84,67 @@ void Gesture::check_type(){
 }
 
 void Gesture::check_movement(){
+    float tmp_x = cur_x - last_x;
+    float tmp_y = cur_y - last_y;
 
-    //左或右
-    if( qAbs(cur_x-last_x) > x_swipe )
-        if( (cur_x-last_x) > 0 )
+    //水平或垂直
+    if( tmp_x == 0 || tmp_y == 0){
+        //水平位移達標
+        if( qAbs(tmp_x) > x_swipe ){
+            if( tmp_x > 0 )
+                emit right_swipe();
+            else
+                emit left_swipe();
+        }
+
+        //垂直位移達標
+        else if( qAbs(tmp_y) > y_swipe ){
+            if( tmp_y > 0 )
+                emit down_swipe();
+            else
+                emit up_swipe();
+        }
+    }
+    //算角度 (0~pi/2)第一 (pi/2 ~ pi)第二 (－pi～－pi/2)第三 ( -pi/2～0)第四
+    else if( (tmp_x + tmp_y) >= (x_swipe + y_swipe) ){
+
+        //right
+        if( qAtan2(tmp_y,tmp_x) < (M_PI/6) && qAtan2(tmp_y,tmp_x) > -(M_PI/6) )
             emit right_swipe();
-        else if( (cur_x-last_x) < 0 )
+
+        //up right
+        else if(qAtan2(tmp_y,tmp_x) < (M_PI/3) && qAtan2(tmp_y,tmp_x) > (M_PI/6)){
+            emit right_swipe();
+            emit up_swipe();
+        }
+
+        //up
+        else if(qAtan2(tmp_y,tmp_x) < (M_PI*2/3) && qAtan2(tmp_y,tmp_x) > (M_PI/3))
+            emit up_swipe();
+
+        //up left
+        else if(qAtan2(tmp_y,tmp_x) < (M_PI*5/6) && qAtan2(tmp_y,tmp_x) > (M_PI*2/3)){
+            emit up_swipe();
+            emit left_swipe();
+        }
+
+        //left
+        else if( qAtan2(tmp_y,tmp_x) < -(M_PI*5/6) && qAtan2(tmp_y,tmp_x) > (M_PI*5/6) )
             emit left_swipe();
 
-     //上或下
-    if( qAbs(cur_y-last_y) > y_swipe )
-        if( (cur_y-last_y) < 0 )
-            emit up_swipe();
-        else if( (cur_y-last_y) > 0 )
+        //down left
+        else if( qAtan2(tmp_y,tmp_x) < -(M_PI*2/3) && qAtan2(tmp_y,tmp_x) > -(M_PI*5/6) ){
+            emit down_swipe();
+            emit left_swipe();
+        }
+        //down
+        else if( qAtan2(tmp_y,tmp_x) < -(M_PI/3) && qAtan2(tmp_y,tmp_x) > -(M_PI*2/3) )
             emit down_swipe();
 
+        //down right
+        else if( qAtan2(tmp_y,tmp_x) < -(M_PI/6) && qAtan2(tmp_y,tmp_x) > -(M_PI/3) ){
+            emit down_swipe();
+            emit left_swipe();
+        }
+    }
 }

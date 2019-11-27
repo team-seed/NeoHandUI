@@ -4,6 +4,7 @@
 #include "../mediapipe/mediapipe/landmarks_to_shm/landmarks_to_shm.h"
 #include <QObject>
 #include <QTimer>
+#include <QtMath>
 #include <QtDebug>
 class Gesture : public QObject
 {
