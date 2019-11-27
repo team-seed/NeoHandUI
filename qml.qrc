@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>ui/game/Game.qml</file>
         <file>ui/game/Lane.qml</file>
         <file>ui/game/Bottomline.qml</file>
         <file>ui/game/Combo.qml</file>
@@ -26,5 +25,6 @@
         <file>ui/game/Barline.qml</file>
         <file>ui/game/Hold_note.qml</file>
         <file>ui/game/Hit_mark.qml</file>
+        <file>ui/game/Game.qml</file>
     </qresource>
 </RCC>
