@@ -4,8 +4,8 @@ Gesture::Gesture(){
     tracking_timer.setInterval(8);
     QObject::connect(&tracking_timer ,SIGNAL(timeout()) ,this ,SLOT(Get()) );
 
-    x_swipe = 0.3;
-    y_swipe = 0.3;
+    x_swipe = 0.05;
+    y_swipe = 0.05;
     x_shift = 0.1;
     cur_id = -1;
     cur_x = 0;
@@ -68,10 +68,16 @@ void Gesture::check_type(){
     if(cur_id!=last_id){
 
         if(cur_id == -1)
+        {
             emit untrigger();
+            qDebug()<<cur_id;
+        }
 
-        else if( 0 <= cur_id && cur_id < 10) //ges1 介於0~10
+        else if( 0 <= cur_id && cur_id < 10 && last_id == -1 ) //ges1 介於0~9
+        {
             emit trigger();
+            qDebug()<<cur_id;
+        }
 
         if( (cur_x-last_x) > x_shift )
             emit Xchanged();
@@ -79,25 +85,24 @@ void Gesture::check_type(){
 
     //手勢不變 x變 ****新增手勢要加****
     else if ( 0 <= cur_id && cur_id < 10)
-        if( (cur_x-last_x) > x_shift )
+        if( qAbs(cur_x-last_x) > x_shift )
             emit Xchanged();
 }
 
 void Gesture::check_movement(){
-    //維持才有swipe
-    if(cur_id == last_id){
-        //左或右
-        if( qAbs(cur_x-last_x) > x_swipe )
-            if( (cur_x-last_x) > 0 )
-                emit right_swipe();
-            else if( (cur_x-last_x) < 0 )
-                emit left_swipe();
 
-         //上或下
-        if( qAbs(cur_y-last_y) > y_swipe )
-            if( (cur_y-last_y) > 0 )
-                emit up_swipe();
-            else if( (cur_y-last_y) < 0 )
-                emit down_swipe();
-    }
+    //左或右
+    if( qAbs(cur_x-last_x) > x_swipe )
+        if( (cur_x-last_x) > 0 )
+            emit right_swipe();
+        else if( (cur_x-last_x) < 0 )
+            emit left_swipe();
+
+     //上或下
+    if( qAbs(cur_y-last_y) > y_swipe )
+        if( (cur_y-last_y) < 0 )
+            emit up_swipe();
+        else if( (cur_y-last_y) > 0 )
+            emit down_swipe();
+
 }

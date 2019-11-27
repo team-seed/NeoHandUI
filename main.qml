@@ -116,19 +116,48 @@ Item {
     signal escrelease_signal()
 
     //hand tract signal
-    signal up_swipe()
-    signal down_swipe()
-    signal left_swipe()
-    signal right_swipe()
-    signal trigger()
-    signal untrigger()
+    //signal up_swipe()
+    //signal down_swipe()
+    //signal left_swipe()
+    //signal right_swipe()
+    //signal trigger()
+    //signal untrigger()
 
+    function trigger(){
+        console.log("trigger!")
+    }
+    function untrigger(){
+        console.log("X")
+    }
+    function up_swipe(){
+        console.log("up")
+    }
+    function down_swipe(){
+        console.log("down")
+    }
+    function left_swipe(){
+        console.log("left")
+    }
+    function right_swipe(){
+        console.log("right")
+    }
     Component.onCompleted: {
+        gesture.start()
+
         gesture.up_swipe.connect(up_swipe)
         gesture.down_swipe.connect(down_swipe)
         gesture.left_swipe.connect(left_swipe)
         gesture.right_swipe.connect(right_swipe)
         gesture.trigger.connect(trigger)
         gesture.untrigger.connect(untrigger)
+    }
+
+    Component.onDestruction: {
+        gesture.up_swipe.disconnect(up_swipe)
+        gesture.down_swipe.disconnect(down_swipe)
+        gesture.left_swipe.disconnect(left_swipe)
+        gesture.right_swipe.disconnect(right_swipe)
+        gesture.trigger.disconnect(trigger)
+        gesture.untrigger.disconnect(untrigger)
     }
 }

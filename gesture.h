@@ -4,25 +4,19 @@
 #include "../mediapipe/mediapipe/landmarks_to_shm/landmarks_to_shm.h"
 #include <QObject>
 #include <QTimer>
-
+#include <QtDebug>
 class Gesture : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int hand_x READ Readx NOTIFY Xchanged )
 
-public:
-    Gesture();
-
-    //click or hold
-    void check_type();
-    //swipe
-    void check_movement();
-
-    int Readx();
-
 public slots:
     //get x,y,id
     void Get();
+
+    void start(){
+        tracking_timer.start();
+    }
 
 signals:
     void up_swipe();
@@ -33,6 +27,16 @@ signals:
     void untrigger();
 
     void Xchanged();
+
+public:
+    Gesture();
+
+    //click or hold
+    void check_type();
+    //swipe
+    void check_movement();
+
+    int Readx();
 
     //數值更新寫在 GET() 開頭
     int last_id;
