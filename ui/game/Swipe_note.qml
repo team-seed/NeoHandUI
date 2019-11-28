@@ -14,9 +14,11 @@ Rectangle {
     property int pos: 0
     property double twist_angle: -lane_angle * (y * 0.4 / (parent.height) + 0.6)
     property int arrow_angle: 0
+    property int left_limit: 0
+    property int right_limit: 0
 
     id: swipe_note
-    height: judge_height
+    height: judge_height * 2
     antialiasing: true
 
     visible: y > 0
@@ -74,7 +76,7 @@ Rectangle {
     }
 
     onWindowChanged: {
-        if (window > 120) {
+        if (window > 60) {
             GP.generateHitMark(1, window)
             swipe_note.destroy()
         }
@@ -82,26 +84,21 @@ Rectangle {
 
     function check_swipe () {
         var timing = Math.abs(window)
-        if (timing > 120) return
+        if (timing > 60) return
+        if (gesture_engine.hand_pos < left_limit || gesture_engine.hand_pos >= right_limit) return
 
         GP.generateHitMark(1, timing)
         swipe_note.destroy()
     }
 
-    Component.onCompleted: {
-        switch (dirc) {
-        case 0: swipe_up.connect(check_swipe); break;
-        case 1: swipe_down.connect(check_swipe); break;
-        case 2: swipe_left.connect(check_swipe); break;
-        case 3: swipe_right.connect(check_swipe); break;
-        }
-
-    }
+    Component.onCompleted: {}
 
     Component.onDestruction: {
-        swipe_up.disconnect(check_swipe)
-        swipe_down.disconnect(check_swipe)
-        swipe_left.disconnect(check_swipe)
-        swipe_right.disconnect(check_swipe)
+        switch (dirc) {
+        case 0: swipe_up.disconnect(check_swipe); break;
+        case 1: swipe_down.disconnect(check_swipe); break;
+        case 2: swipe_left.disconnect(check_swipe); break;
+        case 3: swipe_right.disconnect(check_swipe); break;
+        }
     }
 }

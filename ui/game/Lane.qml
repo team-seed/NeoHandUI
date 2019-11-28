@@ -8,7 +8,7 @@ Item {
     property alias game_lane: lane_full
 
     property int side_width: parent.width / 40
-    property int judge_height: side_width //* 2
+    property int judge_height: side_width
     property int separater_width: 1
     property int lane_count: 4
     property int partitions_per_lane: 4
@@ -60,11 +60,10 @@ Item {
         id: hand_mark
         anchors.bottom: parent.bottom
         anchors.bottomMargin: judge_position
-        x: parent.width * gesture.hand_x + lane_side_left.width
+        x: part_width * gesture_engine.hand_pos + side_width
+        visible: gesture_engine.hand_pos >= 0
 
-        onXChanged: console.log(gesture.hand_x)
-
-        width: 50;
+        width: part_width
         height: parent.height / 2
         opacity: 0.5
 
@@ -184,6 +183,8 @@ Item {
                     GP.generateBarline(value[1], value[2]);
                     break
                 }
+
+                if (value[0] != -1) total_note_count += 1
             }
             else {
                 console.log(value);

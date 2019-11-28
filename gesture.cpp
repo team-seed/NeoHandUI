@@ -1,29 +1,31 @@
 #include "gesture.h"
 Gesture::Gesture(){
     tracking_timer.setTimerType(Qt::PreciseTimer);
-    tracking_timer.setInterval(8);
+    tracking_timer.setInterval(4);
     QObject::connect(&tracking_timer ,SIGNAL(timeout()) ,this ,SLOT(Get()) );
 
-    swipe = 0.05;
     cur_id = -1;
     cur_x = 0;
     cur_y = 0;
 }
 
-float Gesture::Readx(){
-    return cur_x;
+int Gesture::pos() {
+    return position;
 }
 
-float Gesture::Ready(){
-    return cur_y;
+void Gesture::normalize(){
+    if ((cur_x > upperbound) || (cur_x < lowerbound))
+        position = -1;
+    else
+        position = qMin(15, qFloor((cur_x - lowerbound) * 16 / (upperbound - lowerbound)));
+
+    if ((cur_y > floor) || (cur_y < ceiling))
+        height = -1;
+    else
+        height = qMin(11, qFloor((cur_y - ceiling) * 12 / (floor - ceiling)));
 }
 
 void Gesture::Get(){
-    //更新
-    last_id = cur_id;
-    last_x = cur_x;
-    last_y = cur_y;
-
     //# Gesture Library
     //* Discription:
     //  * screen as 256*256, u-v coordinate system
@@ -59,8 +61,12 @@ void Gesture::Get(){
     cur_y = v;
     cur_id = gestureID;
 
-    emit Xchanged();
-    emit Ychanged();
+    last_position = position;
+    last_height = height;
+
+    normalize();
+
+    emit posChanged();
     check_type();
     check_movement();
 }
@@ -72,8 +78,7 @@ void Gesture::Get(){
 void Gesture::check_type(){
     //手勢改變
     if (cur_id != last_id) {
-
-        if (cur_id == -1) {
+        if (cur_id == -1 && cur_gest != -1) {
             cur_gest = -1;
             emit untrigger();
         }
@@ -82,49 +87,21 @@ void Gesture::check_type(){
             cur_gest = 0;
             emit trigger();
         }
-
-//        if( (cur_x-last_x) > x_shift )
-//            emit Xchanged();
     }
-
-    //手勢不變 x變 ****新增手勢要加****
-//    else if ( 0 <= cur_id && cur_id < 10)
-//        if( qAbs(cur_x-last_x) > x_shift )
-//            emit Xchanged();
 }
 
 
 void Gesture::check_movement(){
-    float tmp_x = cur_x - last_x;
-    float tmp_y = cur_y - last_y;
 
-    //算角度 (0~pi/2)第一 (pi/2 ~ pi)第二 (－pi～－pi/2)第三 ( -pi/2～0)第四
-    if( qSqrt(qPow(tmp_x,2) + qPow(tmp_y,2)) >= swipe ){
+    if (position != -1 && last_position != -1 && position != last_position) {
+        int x = position - last_position;
+        if (x > 0) emit right_swipe();
+        else emit left_swipe();
+    }
 
-        //水平或垂直
-        if( tmp_x == 0.f ){
-            //垂直位移達標
-            if( tmp_y > 0.f ) emit down_swipe();
-            else emit up_swipe();
-            return;
-        }
-        else if ( tmp_y == 0.f ) {
-            //水平位移達標
-            if( tmp_x > 0.f ) emit right_swipe();
-            else emit left_swipe();
-            return;
-        }
-
-        double angle = qRadiansToDegrees(qAtan2(qAbs(tmp_y), qAbs(tmp_x)));
-
-        if (angle < 50) {
-            if (tmp_x > 0) emit right_swipe();
-            else emit left_swipe();
-        }
-
-        if (angle > 40) {
-            if (tmp_y > 0) emit down_swipe();
-            else emit up_swipe();
-        }
+    if (height != -1 && last_height != -1 && height != last_height) {
+        int y = height - last_height;
+        if (y > 0) emit down_swipe();
+        else emit up_swipe();
     }
 }

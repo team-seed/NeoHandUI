@@ -7,9 +7,11 @@ Rectangle {
     property double bpm: 120.0
     property int window: game_customtimer.clock - time
     property int gesture: 0
+    property int left_limit: 0
+    property int right_limit: 0
 
     id: click
-    height: judge_height
+    height: judge_height * 2
     antialiasing: true
 
     visible: y > 0
@@ -31,6 +33,7 @@ Rectangle {
     function check_hit () {
         var timing = Math.abs(window)
         if (timing > 150) return
+        if (gesture_engine.hand_pos < left_limit || gesture_engine.hand_pos >= right_limit) return
 
         GP.generateHitMark(0, timing)
         click.destroy()

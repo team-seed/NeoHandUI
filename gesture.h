@@ -9,8 +9,7 @@
 class Gesture : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(float hand_x READ Readx NOTIFY Xchanged )
-    Q_PROPERTY(float hand_y READ Ready NOTIFY Ychanged )
+    Q_PROPERTY(int hand_pos READ pos NOTIFY posChanged )
 
 public slots:
     //get x,y,id
@@ -28,8 +27,7 @@ signals:
     void trigger();
     void untrigger();
 
-    void Xchanged();
-    void Ychanged();
+    void posChanged();
 
 public:
     Gesture();
@@ -39,18 +37,22 @@ public:
     //swipe
     void check_movement();
 
-    float Readx();
-    float Ready();
+    void normalize();
+    int pos();
 
     //數值更新寫在 GET() 開頭
     int last_id;
+    int cur_gest;
     float last_x, last_y;
     int cur_id;
     float cur_x, cur_y;
 
-    int cur_gest;
-
-    float swipe;  //定義移動多少觸發swipe
+    float upperbound = 0.87f;
+    float lowerbound = 0.13f;
+    float ceiling = 0.08f;
+    float floor = 0.92f;
+    int position, last_position;
+    int height, last_height;
 
     QTimer tracking_timer;
 };

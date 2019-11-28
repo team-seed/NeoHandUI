@@ -22,8 +22,11 @@ Item {
     property string bg: null
     property double hispeed: 1.0
     property bool expert: null
-    property int score: 0
+    property int score: 800000 * (accuracy / total_note_count) + 200000 * (game_core.max_combo / total_note_count)
     property int mybest: 0
+
+    property int total_note_count: 0
+    property double accuracy: 0
 
     property double lane_length: 760 + 32 * parent.height / 1080
     property double side_length: 760 + 32 * parent.height / 1080
@@ -34,7 +37,7 @@ Item {
 
     CustomGameTimer { id: game_customtimer }
 
-    Gesture { id: gesture }
+    Gesture { id: gesture_engine }
 
     Combo {
         id: game_core
@@ -115,13 +118,13 @@ Item {
         game_lane_outside.make_chart();
         game_customtimer.set_song("file:///" + game_main.song_data[0] + "/audio.wav");
 
-        gesture.start()
-        gesture.trigger.connect(hit)
-        gesture.untrigger.connect(release)
-        gesture.up_swipe.connect(swipe_up)
-        gesture.down_swipe.connect(swipe_down)
-        gesture.left_swipe.connect(swipe_left)
-        gesture.right_swipe.connect(swipe_right)
+        gesture_engine.start()
+        gesture_engine.trigger.connect(hit)
+        gesture_engine.untrigger.connect(release)
+        gesture_engine.up_swipe.connect(swipe_up)
+        gesture_engine.down_swipe.connect(swipe_down)
+        gesture_engine.left_swipe.connect(swipe_left)
+        gesture_engine.right_swipe.connect(swipe_right)
 
         game_main.escpress_signal.connect(to_main)
         game_main.uppress_signal.connect(increase_hispeed)
@@ -135,12 +138,12 @@ Item {
     }
 
     Component.onDestruction: {
-        gesture.trigger.disconnect(hit)
-        gesture.untrigger.disconnect(release)
-        gesture.up_swipe.disconnect(swipe_up)
-        gesture.down_swipe.disconnect(swipe_down)
-        gesture.left_swipe.disconnect(swipe_left)
-        gesture.right_swipe.disconnect(swipe_right)
+        gesture_engine.trigger.disconnect(hit)
+        gesture_engine.untrigger.disconnect(release)
+        gesture_engine.up_swipe.disconnect(swipe_up)
+        gesture_engine.down_swipe.disconnect(swipe_down)
+        gesture_engine.left_swipe.disconnect(swipe_left)
+        gesture_engine.right_swipe.disconnect(swipe_right)
 
         game_main.escpress_signal.disconnect(to_main)
         game_main.uppress_signal.disconnect(increase_hispeed)
@@ -150,9 +153,9 @@ Item {
     }
 
     signal hit ()
+    signal release ()
     signal swipe_up ()
     signal swipe_down ()
     signal swipe_left ()
     signal swipe_right ()
-    signal release ()
 }
