@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 
 import custom.game.process 1.0
 import custom.game.timer 1.0
+import gesture 1.0
 
 import "game_extension.js" as EXT
 
@@ -32,6 +33,8 @@ Item {
     CustomGameProcess { id: game_process }
 
     CustomGameTimer { id: game_customtimer }
+
+    Gesture { id: gesture }
 
     Combo {
         id: game_core
@@ -102,7 +105,9 @@ Item {
         if (hispeed > 0.5) hispeed -= 0.5
     }
 
-    function gameover () {}
+    function gameover () {
+        console.log("log")
+    }
 
     Component.onCompleted: {
         set_value();
@@ -110,12 +115,19 @@ Item {
         game_lane_outside.make_chart();
         game_customtimer.set_song("file:///" + game_main.song_data[0] + "/audio.wav");
 
+        gesture.start()
+        gesture.trigger.connect(hit)
+        gesture.untrigger.connect(release)
+        gesture.up_swipe.connect(swipe_up)
+        gesture.down_swipe.connect(swipe_down)
+        gesture.left_swipe.connect(swipe_left)
+        gesture.right_swipe.connect(swipe_right)
+
         game_main.escpress_signal.connect(to_main)
         game_main.uppress_signal.connect(increase_hispeed)
         game_main.downpress_signal.connect(decrease_hispeed)
 
         game_main.spacepress_signal.connect(hit)
-        game_main.enterpress_signal.connect(swipe)
 
         game_transition.state = "COMPLETED"
 
@@ -123,14 +135,24 @@ Item {
     }
 
     Component.onDestruction: {
+        gesture.trigger.disconnect(hit)
+        gesture.untrigger.disconnect(release)
+        gesture.up_swipe.disconnect(swipe_up)
+        gesture.down_swipe.disconnect(swipe_down)
+        gesture.left_swipe.disconnect(swipe_left)
+        gesture.right_swipe.disconnect(swipe_right)
+
         game_main.escpress_signal.disconnect(to_main)
         game_main.uppress_signal.disconnect(increase_hispeed)
         game_main.downpress_signal.disconnect(decrease_hispeed)
 
         game_main.spacepress_signal.disconnect(hit)
-        game_main.enterpress_signal.disconnect(swipe)
     }
 
     signal hit ()
-    signal swipe ()
+    signal swipe_up ()
+    signal swipe_down ()
+    signal swipe_left ()
+    signal swipe_right ()
+    signal release ()
 }

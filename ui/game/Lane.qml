@@ -57,6 +57,24 @@ Item {
     }
 
     Rectangle {
+        id: hand_mark
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: judge_position
+        x: parent.width * gesture.hand_x + lane_side_left.width
+
+        onXChanged: console.log(gesture.hand_x)
+
+        width: 50;
+        height: parent.height / 2
+        opacity: 0.5
+
+        gradient: Gradient {
+            GradientStop { position: 0; color: "transparent" }
+            GradientStop { position: 1; color: "gold" }
+        }
+    }
+
+    Rectangle {
         id: lane_side_left
         antialiasing: true
         height: parent.height

@@ -4,15 +4,18 @@ Gesture::Gesture(){
     tracking_timer.setInterval(8);
     QObject::connect(&tracking_timer ,SIGNAL(timeout()) ,this ,SLOT(Get()) );
 
-    x_swipe = 0.05;
-    y_swipe = 0.05;
-    x_shift = 0.1;
+    swipe = 0.05;
     cur_id = -1;
     cur_x = 0;
     cur_y = 0;
 }
-int Gesture::Readx(){
-    return x;
+
+float Gesture::Readx(){
+    return cur_x;
+}
+
+float Gesture::Ready(){
+    return cur_y;
 }
 
 void Gesture::Get(){
@@ -55,6 +58,9 @@ void Gesture::Get(){
     cur_x = u;
     cur_y = v;
     cur_id = gestureID;
+
+    emit Xchanged();
+    emit Ychanged();
     check_type();
     check_movement();
 }
@@ -65,86 +71,60 @@ void Gesture::Get(){
 
 void Gesture::check_type(){
     //手勢改變
-    if(cur_id!=last_id){
+    if (cur_id != last_id) {
 
-        if(cur_id == -1)
+        if (cur_id == -1) {
+            cur_gest = -1;
             emit untrigger();
-
-        else if( 0 <= cur_id && cur_id < 10) //ges1 介於0~10
+        }
+        //ges1 介於0~10
+        else if (0 <= cur_id && cur_id < 10 && cur_gest != 0) {
+            cur_gest = 0;
             emit trigger();
+        }
 
-        if( (cur_x-last_x) > x_shift )
-            emit Xchanged();
+//        if( (cur_x-last_x) > x_shift )
+//            emit Xchanged();
     }
 
     //手勢不變 x變 ****新增手勢要加****
-    else if ( 0 <= cur_id && cur_id < 10)
-        if( qAbs(cur_x-last_x) > x_shift )
-            emit Xchanged();
+//    else if ( 0 <= cur_id && cur_id < 10)
+//        if( qAbs(cur_x-last_x) > x_shift )
+//            emit Xchanged();
 }
+
 
 void Gesture::check_movement(){
     float tmp_x = cur_x - last_x;
     float tmp_y = cur_y - last_y;
 
-    //水平或垂直
-    if( tmp_x == 0 || tmp_y == 0){
-        //水平位移達標
-        if( qAbs(tmp_x) > x_swipe ){
-            if( tmp_x > 0 )
-                emit right_swipe();
-            else
-                emit left_swipe();
-        }
-
-        //垂直位移達標
-        else if( qAbs(tmp_y) > y_swipe ){
-            if( tmp_y > 0 )
-                emit down_swipe();
-            else
-                emit up_swipe();
-        }
-    }
     //算角度 (0~pi/2)第一 (pi/2 ~ pi)第二 (－pi～－pi/2)第三 ( -pi/2～0)第四
-    else if( (tmp_x + tmp_y) >= (x_swipe + y_swipe) ){
+    if( qSqrt(qPow(tmp_x,2) + qPow(tmp_y,2)) >= swipe ){
 
-        //right
-        if( qAtan2(tmp_y,tmp_x) < (M_PI/6) && qAtan2(tmp_y,tmp_x) > -(M_PI/6) )
-            emit right_swipe();
-
-        //up right
-        else if(qAtan2(tmp_y,tmp_x) < (M_PI/3) && qAtan2(tmp_y,tmp_x) > (M_PI/6)){
-            emit right_swipe();
-            emit up_swipe();
+        //水平或垂直
+        if( tmp_x == 0.f ){
+            //垂直位移達標
+            if( tmp_y > 0.f ) emit down_swipe();
+            else emit up_swipe();
+            return;
+        }
+        else if ( tmp_y == 0.f ) {
+            //水平位移達標
+            if( tmp_x > 0.f ) emit right_swipe();
+            else emit left_swipe();
+            return;
         }
 
-        //up
-        else if(qAtan2(tmp_y,tmp_x) < (M_PI*2/3) && qAtan2(tmp_y,tmp_x) > (M_PI/3))
-            emit up_swipe();
+        double angle = qRadiansToDegrees(qAtan2(qAbs(tmp_y), qAbs(tmp_x)));
 
-        //up left
-        else if(qAtan2(tmp_y,tmp_x) < (M_PI*5/6) && qAtan2(tmp_y,tmp_x) > (M_PI*2/3)){
-            emit up_swipe();
-            emit left_swipe();
+        if (angle < 50) {
+            if (tmp_x > 0) emit right_swipe();
+            else emit left_swipe();
         }
 
-        //left
-        else if( qAtan2(tmp_y,tmp_x) < -(M_PI*5/6) && qAtan2(tmp_y,tmp_x) > (M_PI*5/6) )
-            emit left_swipe();
-
-        //down left
-        else if( qAtan2(tmp_y,tmp_x) < -(M_PI*2/3) && qAtan2(tmp_y,tmp_x) > -(M_PI*5/6) ){
-            emit down_swipe();
-            emit left_swipe();
-        }
-        //down
-        else if( qAtan2(tmp_y,tmp_x) < -(M_PI/3) && qAtan2(tmp_y,tmp_x) > -(M_PI*2/3) )
-            emit down_swipe();
-
-        //down right
-        else if( qAtan2(tmp_y,tmp_x) < -(M_PI/6) && qAtan2(tmp_y,tmp_x) > -(M_PI/3) ){
-            emit down_swipe();
-            emit left_swipe();
+        if (angle > 40) {
+            if (tmp_y > 0) emit down_swipe();
+            else emit up_swipe();
         }
     }
 }

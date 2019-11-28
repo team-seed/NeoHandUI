@@ -195,13 +195,33 @@ function generateHitMark (type, timing) {
 
         switch (type) {
         case 0:
-            if (timing < 50) dynamicObject.src = "qrc:/images/exact.png"
-            else if (timing < 100) dynamicObject.src = "qrc:/images/close.png"
-            else dynamicObject.src = "qrc:/images/break.png"
+            if (timing < 50) {
+                dynamicObject.src = "qrc:/images/exact.png"
+                game_core.add_combo()
+                life.gain_health()
+            }
+            else if (timing < 120) {
+                dynamicObject.src = "qrc:/images/close.png"
+                game_core.add_combo()
+            }
+            else {
+                dynamicObject.src = "qrc:/images/break.png"
+                game_core.break_combo()
+                life.lose_health()
+            }
             break
         case 1:
-            if (timing < 150) dynamicObject.src = "qrc:/images/exact.png"
-            else dynamicObject.src = "qrc:/images/break.png"
+            if (timing < 120) {
+                dynamicObject.src = "qrc:/images/exact.png"
+                game_core.add_combo()
+                life.gain_health()
+            }
+            else {
+                dynamicObject.src = "qrc:/images/break.png"
+                game_core.break_combo()
+                life.lose_health()
+            }
+            break
         }
 
         dynamicObject.destroy(1000)

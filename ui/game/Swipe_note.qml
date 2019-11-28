@@ -74,7 +74,7 @@ Rectangle {
     }
 
     onWindowChanged: {
-        if (window > 150) {
+        if (window > 120) {
             GP.generateHitMark(1, window)
             swipe_note.destroy()
         }
@@ -82,17 +82,26 @@ Rectangle {
 
     function check_swipe () {
         var timing = Math.abs(window)
-        if (timing > 150) return
+        if (timing > 120) return
 
         GP.generateHitMark(1, timing)
         swipe_note.destroy()
     }
 
     Component.onCompleted: {
-        swipe.connect(check_swipe)
+        switch (dirc) {
+        case 0: swipe_up.connect(check_swipe); break;
+        case 1: swipe_down.connect(check_swipe); break;
+        case 2: swipe_left.connect(check_swipe); break;
+        case 3: swipe_right.connect(check_swipe); break;
+        }
+
     }
 
     Component.onDestruction: {
-        swipe.disconnect(check_swipe)
+        swipe_up.disconnect(check_swipe)
+        swipe_down.disconnect(check_swipe)
+        swipe_left.disconnect(check_swipe)
+        swipe_right.disconnect(check_swipe)
     }
 }
