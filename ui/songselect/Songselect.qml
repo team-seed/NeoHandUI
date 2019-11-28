@@ -286,6 +286,7 @@ Item {
         Item {
             id: difficulty_frame
 
+
             anchors {
                 top: current_artist.bottom
                 topMargin: 40
@@ -296,14 +297,16 @@ Item {
                 rightMargin: data_panel.cont_margin * 2
             }
 
+            property double frame_margin: difficulty_frame.height/4
+
             Column {
-                spacing: data_panel.cont_margin
+                spacing: parent.frame_margin
                 anchors.centerIn: parent
 
                 Item {
                     id: difficulty_basic
                     width: parent.parent.width
-                    height: data_panel.cont_margin
+                    height: parent.parent.frame_margin
 
                     Text {
                         text: ">"
@@ -358,7 +361,7 @@ Item {
                 Item {
                     id: difficulty_expert
                     width: parent.parent.width
-                    height: data_panel.cont_margin
+                    height: parent.parent.frame_margin
 
                     Text {
                         text: ">"
