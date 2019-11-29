@@ -2,9 +2,10 @@
 Gesture::Gesture(){
     tracking_timer.setTimerType(Qt::PreciseTimer);
     tracking_timer.setInterval(4);
-    QObject::connect(&tracking_timer ,SIGNAL(timeout()) ,this ,SLOT(Get()) );
+    QObject::connect(&tracking_timer, SIGNAL(timeout()), this, SLOT(Get()));
 
     ges_cur = gesture_t(0, 0, -1);
+    ges_last = gesture_t(0, 0, -1);
 }
 
 int Gesture::pos() {
@@ -24,6 +25,8 @@ void Gesture::normalize(){
 }
 
 void Gesture::Get(){
+    ges_last = ges_cur;
+
     //# Gesture Library
     //* Discription:
     //  * screen as 256*256, u-v coordinate system
@@ -85,12 +88,13 @@ void Gesture::Get(){
     ges_cur_second = {bbCentral_second[0].x, bbCentral_second[0].y, (int)bbCentral_second[0].z};
     std::cout << ges_cur_second;
 #endif
+
     last_position = position;
     last_height = height;
 
     normalize();
-
     emit posChanged();
+
     check_type();
     check_movement();
 }
