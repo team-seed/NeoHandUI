@@ -1,9 +1,8 @@
 #include "Game_process.h"
 
 bool Game_process::song_chart_parse (QString filepath) {
-    //QList<chart_section> chart;
     QString range;
-    qDebug() << filepath;
+    //qDebug() << filepath;
     QFile file(filepath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Error: JSON read failed.";

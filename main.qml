@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-
+import gesture 1.0
 import "./ui/game"
 
 Item {
@@ -11,7 +11,8 @@ Item {
     height: Screen.height
 
     property variant song_data: null
-    property int global_offset: 245
+    property int global_offset: 0
+
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.BlankCursor
@@ -112,4 +113,10 @@ Item {
     signal bksprelease_signal()
     signal escrelease_signal()
 
+    Component.onCompleted: {
+
+    }
+
+    Component.onDestruction: {
+    }
 }

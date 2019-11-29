@@ -4,7 +4,7 @@ var barline_component
 var hold_component
 var mark_component
 
-function generateNote(gest, bpm, time, left, right) {
+function generateNote (gest, bpm, time, left, right) {
     if (note_component == null)
         note_component = Qt.createComponent("Click_note.qml");
 
@@ -24,6 +24,8 @@ function generateNote(gest, bpm, time, left, right) {
         dynamicObject.time = time + start_interval + global_offset
         dynamicObject.bpm = bpm
         dynamicObject.gesture = gest
+        dynamicObject.left_limit = left
+        dynamicObject.right_limit = right
         dynamicObject.anchors.leftMargin = part_width * left
         dynamicObject.anchors.rightMargin = part_width * (16 - right)
 
@@ -65,6 +67,8 @@ function generateSwipe (dirc, bpm, time, left, right) {
         dynamicObject.time = time + start_interval + global_offset
         dynamicObject.bpm = bpm
         dynamicObject.dirc = dirc
+        dynamicObject.left_limit = left
+        dynamicObject.right_limit = right
         dynamicObject.anchors.leftMargin = part_width * left
         dynamicObject.anchors.rightMargin = part_width * (16 - right)
 
@@ -74,18 +78,22 @@ function generateSwipe (dirc, bpm, time, left, right) {
         case 0:
             dynamicObject.color = "red"
             dynamicObject.arrow_angle = -90
+            swipe_up.connect(dynamicObject.check_swipe)
             break
         case 1:
             dynamicObject.color = "gold"
             dynamicObject.arrow_angle = 90
+            swipe_down.connect(dynamicObject.check_swipe)
             break
         case 2:
             dynamicObject.color = "deepskyblue"
             dynamicObject.arrow_angle = 180
+            swipe_left.connect(dynamicObject.check_swipe)
             break
         case 3:
             dynamicObject.color = "limegreen"
             dynamicObject.arrow_angle = 0
+            swipe_right.connect(dynamicObject.check_swipe)
             break
         }
     }
@@ -127,7 +135,7 @@ function generateBarline (bpm, time) {
     return true
 }
 
-function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_right) {
+function generateHold (gest, bpm, s_time, s_left, s_right, e_time, e_left, e_right) {
     if (hold_component == null)
         hold_component = Qt.createComponent("Hold_note.qml");
 
@@ -142,13 +150,16 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
         }
 
         dynamicObject.anchors.left = hold_note_container.left
-        //dynamicObject.anchors.right = lane_row.right
 
         dynamicObject.start_time = s_time + start_interval + global_offset
         dynamicObject.end_time = e_time + start_interval + global_offset
-
         dynamicObject.bpm = bpm
         dynamicObject.gesture = gest
+
+        dynamicObject.left_limit = s_left
+        dynamicObject.right_limit = s_right
+        dynamicObject.left_end = e_left
+        dynamicObject.right_end = e_right
 
         var leftpoint = Math.min(e_left, s_left)
 
@@ -179,7 +190,7 @@ function generateHold(gest, bpm, s_time, s_left, s_right, e_time, e_left, e_righ
     return true
 }
 
-function generateHitMark (type, timing) {
+function generateHitMark (type, timing, percentage = 1) {
     if (mark_component == null)
         mark_component = Qt.createComponent("Hit_mark.qml");
 
@@ -195,13 +206,54 @@ function generateHitMark (type, timing) {
 
         switch (type) {
         case 0:
-            if (timing < 50) dynamicObject.src = "qrc:/images/exact.png"
-            else if (timing < 100) dynamicObject.src = "qrc:/images/close.png"
-            else dynamicObject.src = "qrc:/images/break.png"
+            if (timing < 50) {
+                dynamicObject.src = "qrc:/images/exact.png"
+                game_core.add_combo()
+                life.gain_health()
+                accuracy += 1
+            }
+            else if (timing < 120) {
+                dynamicObject.src = "qrc:/images/close.png"
+                game_core.add_combo()
+                accuracy += 0.5
+            }
+            else {
+                dynamicObject.src = "qrc:/images/break.png"
+                game_core.break_combo()
+                life.lose_health()
+            }
             break
         case 1:
-            if (timing < 150) dynamicObject.src = "qrc:/images/exact.png"
-            else dynamicObject.src = "qrc:/images/break.png"
+            if (timing <= 60) {
+                dynamicObject.src = "qrc:/images/exact.png"
+                game_core.add_combo()
+                life.gain_health()
+                accuracy += 1
+            }
+            else {
+                dynamicObject.src = "qrc:/images/break.png"
+                game_core.break_combo()
+                life.lose_health()
+            }
+            break
+        case 2:
+            if (percentage >= 0.8) {
+                dynamicObject.src = "qrc:/images/exact.png"
+                game_core.add_combo()
+                life.gain_health()
+            }
+            else if (percentage >= 0.5) {
+                dynamicObject.src = "qrc:/images/close.png"
+                game_core.add_combo()
+            }
+            else {
+                dynamicObject.src = "qrc:/images/break.png"
+                game_core.break_combo()
+                life.lose_health()
+            }
+            accuracy += Math.min(percentage)
+
+            break
         }
 
         dynamicObject.destroy(1000)

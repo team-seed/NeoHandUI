@@ -8,7 +8,7 @@ Item {
     property alias game_lane: lane_full
 
     property int side_width: parent.width / 40
-    property int judge_height: side_width //* 2
+    property int judge_height: side_width
     property int separater_width: 1
     property int lane_count: 4
     property int partitions_per_lane: 4
@@ -54,6 +54,23 @@ Item {
         source: lane_row
         foregroundSource: gradient_lane_mask
         mode: "hue"
+    }
+
+    Rectangle {
+        id: hand_mark
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: judge_position
+        x: part_width * gesture_engine.hand_pos + side_width
+        visible: gesture_engine.hand_pos >= 0
+
+        width: part_width
+        height: parent.height / 2
+        opacity: 0.5
+
+        gradient: Gradient {
+            GradientStop { position: 0; color: "transparent" }
+            GradientStop { position: 1; color: "gold" }
+        }
     }
 
     Rectangle {
@@ -166,6 +183,8 @@ Item {
                     GP.generateBarline(value[1], value[2]);
                     break
                 }
+
+                if (value[0] != -1) total_note_count += 1
             }
             else {
                 console.log(value);

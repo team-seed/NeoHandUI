@@ -14,7 +14,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        ../mediapipe/mediapipe/landmarks_to_shm/landmarks_datatype.cc \
+        ../mediapipe/mediapipe/landmarks_to_shm/landmarks_to_shm.cc \
         Game_process.cpp \
+        gesture.cpp \
         main.cpp
 
 RESOURCES += qml.qrc \
@@ -34,10 +37,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    ../mediapipe/mediapipe/landmarks_to_shm/landmarks_datatype.h \
+    ../mediapipe/mediapipe/landmarks_to_shm/landmarks_to_shm.h \
     Effect_play.h \
     Game.h \
     Game_process.h \
     Game_timer.h \
     Object_pool.h \
     Player.h \
-    Songselect.h
+    Songselect.h \
+    gesture.h
+
+LIBS += \
+    -lrt
+    -lpthread
