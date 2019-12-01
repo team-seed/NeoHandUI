@@ -4,13 +4,15 @@
 #include <QThreadPool>
 #include <QSoundEffect>
 #include "Object_pool.h"
-#define EFFECT_POOL_COUNT 5
+#define EFFECT_POOL_COUNT 10
 
 class Effect_play: public QObject, public QRunnable {
     Q_OBJECT
 
 public:
+
     Effect_play() {
+        i = 0;
         QRunnable::setAutoDelete(false);
         Q.setMaxThreadCount(EFFECT_POOL_COUNT);
     }
@@ -24,13 +26,17 @@ public:
         p->ret_elem(s);
     }
 
+
     void play() {
         QtConcurrent::run(&Q, fun1,pool.get_elem(), &pool);
     }
 
+
+
     void run() {}
 
 private:
+    int i;
     Object_pool pool;
     QSoundEffect *sound[EFFECT_POOL_COUNT];
     QThreadPool Q;

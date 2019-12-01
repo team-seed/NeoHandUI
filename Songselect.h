@@ -14,7 +14,7 @@
 
 #include "Player.h"
 #include "Effect_play.h"
-
+#include "Array_effect.h"
 class Songselect : public QObject {
 
     Q_OBJECT
@@ -23,7 +23,13 @@ class Songselect : public QObject {
 public:
     Songselect () {
         reload_song_meta();
-        effect_player.init(10, QUrl("qrc:/ui/songselect/songselect_click.wav"));
+        //effect_player.init(10, QUrl("qrc:/ui/songselect/songselect_click.wav"));
+        effect_player.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
+
+    }
+
+    ~Songselect(){
+        effect_player.destruct();
     }
 
     void reload_song_meta() {
@@ -137,6 +143,7 @@ private:
             return false;
 
         songs_meta.insert(0, list);
+        file.close();
         return true;
     }
 
@@ -145,7 +152,8 @@ private:
     QVariantList songs_meta;
 
     Player music_player;
-    Effect_play effect_player;
+    //Effect_play effect_player;
+    Array_effect effect_player;
 };
 
 #endif // SONGSELECT_H

@@ -76,7 +76,7 @@ Rectangle {
     }
 
     onWindowChanged: {
-        if (window > 60) {
+        if (window > 50) {
             GP.generateHitMark(1, window)
             swipe_note.destroy()
         }
@@ -84,7 +84,7 @@ Rectangle {
 
     function check_swipe () {
         var timing = Math.abs(window)
-        if (timing > 60) return
+        if (timing > 50) return
         if (gesture_engine.hand_pos < left_limit || gesture_engine.hand_pos >= right_limit) return
 
         GP.generateHitMark(1, timing)

@@ -39,6 +39,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ../mediapipe/mediapipe/landmarks_to_shm/landmarks_datatype.h \
     ../mediapipe/mediapipe/landmarks_to_shm/landmarks_to_shm.h \
+    Array_effect.h \
     Effect_play.h \
     Game.h \
     Game_process.h \

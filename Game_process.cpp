@@ -116,6 +116,7 @@ bool Game_process::song_chart_parse (QString filepath) {
 
     emit bpm_rangeChanged();
     emit chartChanged();
+    file.close();
     return true;
 }
 

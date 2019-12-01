@@ -209,11 +209,13 @@ function generateHitMark (type, timing, percentage = 1) {
             if (timing < 50) {
                 dynamicObject.src = "qrc:/images/exact.png"
                 game_core.add_combo()
+                game_process.hit_play()
                 life.gain_health()
                 accuracy += 1
             }
             else if (timing < 120) {
                 dynamicObject.src = "qrc:/images/close.png"
+                game_process.hit_play()
                 game_core.add_combo()
                 accuracy += 0.5
             }
@@ -224,8 +226,9 @@ function generateHitMark (type, timing, percentage = 1) {
             }
             break
         case 1:
-            if (timing <= 60) {
+            if (timing <= 50) {
                 dynamicObject.src = "qrc:/images/exact.png"
+                game_process.swipe_play()
                 game_core.add_combo()
                 life.gain_health()
                 accuracy += 1
@@ -251,7 +254,7 @@ function generateHitMark (type, timing, percentage = 1) {
                 game_core.break_combo()
                 life.lose_health()
             }
-            accuracy += Math.min(percentage)
+            accuracy += Math.min(percentage, 1)
 
             break
         }

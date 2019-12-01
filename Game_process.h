@@ -7,9 +7,9 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QFile>
-
+#include "Effect_play.h"
 #include "Player.h"
-
+#include "Array_effect.h"
 struct slide {
     int time, left, right;
 };
@@ -34,7 +34,17 @@ class Game_process : public QObject
     Q_PROPERTY(QVariantList chart READ chart NOTIFY chartChanged)
 
 public:
-    Game_process() {}
+    Game_process() {
+        hit_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
+        swipe_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
+        hold_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
+    }
+
+    ~Game_process(){
+        hit_effect.destruct();
+        swipe_effect.destruct();
+        hold_effect.destruct();
+    }
 
     QString bpm_range () {
         return m_bpm_range;
@@ -53,12 +63,24 @@ signals:
 public slots:
     bool song_chart_parse (QString filepath);
 
+    void hit_play(){hit_effect.play();}
+    void swipe_play(){swipe_effect.play();}
+    void hold_play(){hold_effect.play();}
+
 private:
     Player music_player;
     QList<chart_section> song_chart;
     QList<QList<int>> note_list;
     QString m_bpm_range;
     QVariantList qml_chart;
+
+    //Effect_play hit_effect;
+    //Effect_play swipe_effect;
+    //Effect_play hold_effect;
+
+    Array_effect hit_effect;
+    Array_effect swipe_effect;
+    Array_effect hold_effect;
 };
 
 #endif // GAME_PROCESS_H
