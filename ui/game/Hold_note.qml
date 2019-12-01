@@ -77,8 +77,10 @@ Shape {
                 shape.destroy()
             }
             else if (window > -30) {
-                if (gesture_engine.hand_pos >= left_limit && gesture_engine.hand_pos < right_limit)
+                if (gesture_engine.hand_pos >= left_limit && gesture_engine.hand_pos < right_limit){
+                    game_process.hold_play()
                     on_hit = true
+                }
             }
         }
     }
