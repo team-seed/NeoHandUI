@@ -50,5 +50,6 @@ HEADERS += \
     gesture.h
 
 LIBS += \
-    -lrt
-    -lpthread
+    -lrt \
+    -lpthread \
+    -lopencv_videoio \
