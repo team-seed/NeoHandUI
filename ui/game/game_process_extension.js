@@ -251,7 +251,7 @@ function generateHitMark (type, timing, percentage = 1) {
                 game_core.break_combo()
                 life.lose_health()
             }
-            accuracy += Math.min(percentage)
+            accuracy += Math.min(percentage, 1)
 
             break
         }
