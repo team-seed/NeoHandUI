@@ -3,6 +3,7 @@
 
 #include <QtConcurrent>
 #include <QSoundEffect>
+#include <QDebug>
 #define EFFECT_POOL_COUNT 30
 
 class Array_effect: public QObject, public QRunnable {

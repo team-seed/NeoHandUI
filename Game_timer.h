@@ -18,6 +18,7 @@ public:
         timer.setTimerType(Qt::PreciseTimer);
         timer.setInterval(2);
         QObject::connect(&timer, SIGNAL(timeout()), this, SIGNAL(clockChanged()));
+        QObject::connect(&music_player, SIGNAL(music_stopped()), this, SIGNAL(game_end()));
     }
 
     void start() {
@@ -54,10 +55,10 @@ public slots:
     void playMusic() {
         music_player.play_song();
     }
-
 signals:
     void clockChanged();
 
+    void game_end();
 private:
 
     Player music_player;

@@ -1,5 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>ui/songselect/songselect_click.wav</file>
+        <file>hit_effect/click.wav</file>
+        <file>hit_effect/hold.wav</file>
+        <file>hit_effect/swipe.wav</file>
+        <file>hit_effect/t1.wav</file>
+        <file>hit_effect/t2.wav</file>
+        <file>hit_effect/t3.wav</file>
+        <file>hit_effect/t4.wav</file>
     </qresource>
 </RCC>

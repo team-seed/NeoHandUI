@@ -9,6 +9,10 @@ class Player:public QObject{
     Q_OBJECT
 public:
     Player(){
+        QObject::connect(&music, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(checkstate(QMediaPlayer::MediaStatus)));
+    }
+    int currentstate(){
+        return music.state();
     }
 public slots:
     void displayErrorMessage()
@@ -54,6 +58,13 @@ public slots:
     void stop_bgm() {
         music.stop();
     }
+
+    void checkstate(QMediaPlayer::MediaStatus status){
+        if(status == QMediaPlayer::EndOfMedia)
+            emit music_stopped();
+    }
+signals:
+    void music_stopped();
 
 private:
     QUrl url;

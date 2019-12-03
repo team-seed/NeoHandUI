@@ -22,7 +22,7 @@ Item {
     property string bg: null
     property double hispeed: 1.0
     property bool expert: null
-    property int score: 800000 * (accuracy / total_note_count) + 200000 * (game_core.max_combo / total_note_count)
+    property int score: 900000 * (accuracy / total_note_count) + 100000 * (game_core.max_combo / total_note_count)
     property int mybest: 0
 
     property int total_note_count: 0
@@ -140,6 +140,7 @@ Item {
         game_main.downpress_signal.disconnect(decrease_hispeed)
 
         game_main.enterpress_signal.disconnect(gameover)
+        game_customtimer.game_end.disconnect(gameover)
     }
 
     Component.onCompleted: {
@@ -166,7 +167,8 @@ Item {
 
         game_transition.state = "COMPLETED"
 
-        game_customtimer.startGame(start_interval);
+        game_customtimer.startGame(start_interval)
+        game_customtimer.game_end.connect(gameover)
     }
 
     Component.onDestruction: {

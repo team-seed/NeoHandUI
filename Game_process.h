@@ -35,9 +35,9 @@ class Game_process : public QObject
 
 public:
     Game_process() {
-        hit_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
-        swipe_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
-        hold_effect.init(QUrl("qrc:/ui/songselect/songselect_click.wav"));
+        hit_effect.init(QUrl("qrc:/hit_effect/click.wav"));
+        swipe_effect.init(QUrl("qrc:/hit_effect/swipe.wav"));
+        hold_effect.init(QUrl("qrc:/hit_effect/t1.wav"));
     }
 
     ~Game_process(){
