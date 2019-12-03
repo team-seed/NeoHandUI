@@ -26,9 +26,9 @@ layout: default
   ![right](right.png)
   
 ### 觸發條件
-- click: click note到判定線時，瞬間將手張開呈5的手勢
-- hold: hold note到判定線時，維持手張開呈5的手勢
-- swipe: swipe note到判定線時，將手以指定的方向輕滑
+- click: click note到判定線時，移動游標到note的位置，瞬間將手張開呈5的手勢
+- hold: hold note到判定線時，移動游標到note的位置，維持手張開呈5的手勢
+- swipe: swipe note到判定線時，移動游標到note的位置，將手以指定的方向輕滑
 
 ### 遊戲目標
 - 追求更高的分數
