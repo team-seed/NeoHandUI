@@ -18,8 +18,7 @@ Shape {
     property double left_top: 0
     property double left_bottom: 0
 
-    property bool enabled: false
-    property int enable_time: start_time
+    property double enable_time: 0
     property int total_hit_time: 0
     property bool on_hit: false
 
@@ -34,7 +33,7 @@ Shape {
     id: shape
     antialiasing: true
 
-    opacity: (on_hit && enabled) ? 1 : 0.5
+    opacity: (on_hit && enable) ? 1 : 0.5
 
     visible: y + shape_height > 0
 
@@ -54,57 +53,54 @@ Shape {
     }
 
     onWindowChanged: {
-        if (on_hit) {
+        /*if (on_hit) {
+            if (game_container.enable) enable_time += 1
+
+            total_hit_time += 1
+
             if (gesture_engine.hand_pos < left_barrier || gesture_engine.hand_pos >= right_barrier) {
-                if (enabled) {
-                    total_hit_time += game_customtimer.clock - enable_time
-                    enable_time = end_time
-                }
+                enable_time *= (window / duration)
                 on_hit = false
             }
 
             if (end_time < game_customtimer.clock) {
-                if (enabled) {
-                    total_hit_time += game_customtimer.clock - enable_time
-                    enable_time = end_time
-                }
                 on_hit = false
             }
         }
         else {
             if (window > 90) {
-                GP.generateHitMark(2, window, total_hit_time / duration)
+                //GP.generateHitMark(2, window, total_hit_time / duration)
+                GP.generateHitMark(2, window, enable_time / total_hit_time)
                 shape.destroy()
             }
-            else if (window > -30) {
+            else if (window >= 0) {
                 if (gesture_engine.hand_pos >= left_limit && gesture_engine.hand_pos < right_limit){
                     game_process.hold_play()
                     on_hit = true
                 }
             }
+        }*/
+
+
+        if (window >= 0) {
+            total_hit_time += 1
+
+            if (!on_hit) {
+                game_process.hold_play()
+                on_hit = true
+            }
+
+            if (game_container.enable) {
+                if (gesture_engine.hand_pos >= left_barrier && gesture_engine.hand_pos < right_barrier){
+                    enable_time += 1
+                }
+            }
+
+            if (window > duration) {
+                GP.generateHitMark(2, window, enable_time / total_hit_time)
+                shape.destroy()
+            }
         }
-    }
 
-    function check_hold() {
-        enabled = true
-        enable_time = game_customtimer.clock
-    }
-
-    function break_hold() {
-        enabled = false
-        if (window > 0 && window < duration) {
-            total_hit_time += game_customtimer.clock - enable_time
-            enable_time = end_time
-        }
-    }
-
-    Component.onCompleted: {
-        hit.connect(check_hold)
-        release.connect(break_hold)
-    }
-
-    Component.onDestruction: {
-        hit.disconnect(check_hold)
-        release.disconnect(break_hold)
     }
 }

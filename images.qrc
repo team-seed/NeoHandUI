@@ -6,5 +6,9 @@
         <file>images/break.png</file>
         <file>images/close.png</file>
         <file>images/exact.png</file>
+        <file>images/mainlogo.png</file>
+        <file>images/mediapipelogo.png</file>
+        <file>images/Qtlogo.png</file>
+        <file>images/TSlogo.png</file>
     </qresource>
 </RCC>

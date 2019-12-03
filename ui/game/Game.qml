@@ -27,11 +27,16 @@ Item {
 
     property int total_note_count: 0
     property double accuracy: 0
+    property int exact_count: 0
+    property int close_count: 0
+    property int break_count: 0
 
     property double lane_length: 760 + 32 * parent.height / 1080
     property double side_length: 760 + 32 * parent.height / 1080
     property double lane_angle: 90 - 15 * parent.height / 1080
     property double side_angle: 89.875 - 12.875 * parent.height / 1080
+
+    property bool enable: false
 
     CustomGameProcess { id: game_process }
 
@@ -109,7 +114,32 @@ Item {
     }
 
     function gameover () {
-        console.log("log")
+        disconnect_all()
+        game_transition.state = "LOADING"
+        final_score = score
+        var data = [total_note_count, exact_count, close_count, break_count, accuracy / total_note_count * 100, game_core.max_combo]
+        result_data = data
+        destruct.start()
+    }
+
+    function enable_up () { enable = true }
+    function enable_down () { enable = false }
+
+    function disconnect_all () {
+        gesture_engine.trigger.disconnect(hit)
+        gesture_engine.trigger.disconnect(enable_up)
+        gesture_engine.untrigger.disconnect(release)
+        gesture_engine.untrigger.disconnect(enable_down)
+        gesture_engine.up_swipe.disconnect(swipe_up)
+        gesture_engine.down_swipe.disconnect(swipe_down)
+        gesture_engine.left_swipe.disconnect(swipe_left)
+        gesture_engine.right_swipe.disconnect(swipe_right)
+
+        game_main.escpress_signal.disconnect(to_main)
+        game_main.uppress_signal.disconnect(increase_hispeed)
+        game_main.downpress_signal.disconnect(decrease_hispeed)
+
+        game_main.enterpress_signal.disconnect(gameover)
     }
 
     Component.onCompleted: {
@@ -120,7 +150,9 @@ Item {
 
         gesture_engine.start()
         gesture_engine.trigger.connect(hit)
+        gesture_engine.trigger.connect(enable_up)
         gesture_engine.untrigger.connect(release)
+        gesture_engine.untrigger.connect(enable_down)
         gesture_engine.up_swipe.connect(swipe_up)
         gesture_engine.down_swipe.connect(swipe_down)
         gesture_engine.left_swipe.connect(swipe_left)
@@ -130,7 +162,7 @@ Item {
         game_main.uppress_signal.connect(increase_hispeed)
         game_main.downpress_signal.connect(decrease_hispeed)
 
-        game_main.spacepress_signal.connect(hit)
+        game_main.enterpress_signal.connect(gameover)
 
         game_transition.state = "COMPLETED"
 
@@ -138,18 +170,13 @@ Item {
     }
 
     Component.onDestruction: {
-        gesture_engine.trigger.disconnect(hit)
-        gesture_engine.untrigger.disconnect(release)
-        gesture_engine.up_swipe.disconnect(swipe_up)
-        gesture_engine.down_swipe.disconnect(swipe_down)
-        gesture_engine.left_swipe.disconnect(swipe_left)
-        gesture_engine.right_swipe.disconnect(swipe_right)
+        disconnect_all()
+    }
 
-        game_main.escpress_signal.disconnect(to_main)
-        game_main.uppress_signal.disconnect(increase_hispeed)
-        game_main.downpress_signal.disconnect(decrease_hispeed)
-
-        game_main.spacepress_signal.disconnect(hit)
+    Timer {
+        id: destruct
+        interval: game_transition.time
+        onTriggered: pageloader.source = "/ui/home/Result.qml"
     }
 
     signal hit ()

@@ -24,7 +24,7 @@ Rectangle {
     }
 
     onWindowChanged: {
-        if (window > 150) {
+        if (window > 120) {
             GP.generateHitMark(0, window)
             click.destroy()
         }
@@ -32,7 +32,7 @@ Rectangle {
 
     function check_hit () {
         var timing = Math.abs(window)
-        if (timing > 150) return
+        if (timing > 120) return
         if (gesture_engine.hand_pos < left_limit || gesture_engine.hand_pos >= right_limit) return
 
         GP.generateHitMark(0, timing)

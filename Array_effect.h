@@ -15,20 +15,23 @@ public:
     }
 
     void init (QUrl url = QUrl("")) {
-        for(int i = 0; i<EFFECT_POOL_COUNT;i++){
-            sound[i]=new QSoundEffect;
-            sound[i]->setSource(url);
-            sound[i]->setVolume(1.0);
+        for(int i = 0; i < EFFECT_POOL_COUNT; i++){
+            sound[i] = new QSoundEffect;
+            sound[i] -> setSource(url);
+            sound[i] -> setVolume(1.0);
         }
     }
 
     void play() {
-        sound[count]->play();
+        while(sound[count]->isPlaying()==true)
+            ++count %= EFFECT_POOL_COUNT ;
+
+        sound[count] -> play();
         ++count %= EFFECT_POOL_COUNT ;
     }
 
     void destruct(){
-        for(int i = 0; i<EFFECT_POOL_COUNT;i++)
+        for(int i = 0; i < EFFECT_POOL_COUNT; i++)
             delete sound[i];
     }
 

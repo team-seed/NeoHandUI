@@ -38,14 +38,16 @@ Column{
     }
 
     Item {
-        height: video.height
-        width: video.width
+        height: parent.height / 2
+        width: height * 16 / 9
 
         VideoOutput{
 
             id: video
             source: cam
             focus: visible
+            anchors.fill: parent
+            fillMode: VideoOutput.PreserveAspectFit
         }
 
         Text {

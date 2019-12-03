@@ -59,7 +59,6 @@ Item {
 
             Behavior on width {
                 NumberAnimation {
-                    duration: 500
                     easing.type: Easing.InOutExpo
                 }
             }

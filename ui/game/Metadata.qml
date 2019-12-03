@@ -86,7 +86,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             //x: 0
 
-            style: "Raised"
+            style: Text.Raised
             styleColor: "#222222"
             NumberAnimation {
                 target: ttt
@@ -125,7 +125,7 @@ Item {
             font.pixelSize: parent.height * 0.75
             anchors.verticalCenter: parent.verticalCenter
 
-            style: "Raised"
+            style: Text.Raised
             styleColor: "#222222"
             NumberAnimation {
                 target: aaa
@@ -257,7 +257,7 @@ Item {
         id: current_score
         text: score.numberFormat(0, '', ',')
         color: "white"
-        style: "Raised"
+        style: Text.Raised
         styleColor: "#222222"
 
         font.family: font_hemi_head.name
@@ -275,7 +275,7 @@ Item {
         id: high_score
         text: "MYBEST  " + mybest.numberFormat(0, '', ',')
         color: "white"
-        style: "Raised"
+        style: Text.Raised
         styleColor: "#222222"
 
         font.family: font_hemi_head.name

@@ -26,5 +26,7 @@
         <file>ui/game/Hold_note.qml</file>
         <file>ui/game/Hit_mark.qml</file>
         <file>ui/game/Game.qml</file>
+        <file>ui/home/Result.qml</file>
+        <file>ui/home/TextBlock.qml</file>
     </qresource>
 </RCC>

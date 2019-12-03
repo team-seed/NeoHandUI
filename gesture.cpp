@@ -21,7 +21,7 @@ void Gesture::normalize(){
     if ((ges_cur.y > floor) || (ges_cur.y < ceiling))
         height = -1;
     else
-        height = qMin(11, qFloor((ges_cur.y - ceiling) * 12 / (floor - ceiling)));
+        height = qMin(15, qFloor((ges_cur.y - ceiling) * 16 / (floor - ceiling)));
 }
 
 void Gesture::Get(){
@@ -99,9 +99,6 @@ void Gesture::Get(){
     check_movement();
 }
 
-//當 type 改變, 送 trig or untrig 的 sig 以及 xchange 的 sig
-//當 type 維持(不為-1), y 改變, 送 swipe 的 sig
-//當 type 維持(不為-1), x 改變, 送 xchange 的 sig
 
 void Gesture::check_type(){
     //手勢改變

@@ -27,7 +27,7 @@ Item {
         color: "white"
         font.family: font_hemi_head.name
         font.pixelSize: height * 0.8
-        style: "Raised"
+        style: Text.Raised
         styleColor: "#222222"
 
         anchors {
@@ -237,7 +237,7 @@ Item {
 
             fontSizeMode: Text.Fit
             verticalAlignment: Text.AlignVCenter
-            style: "Raised"
+            style: Text.Raised
             styleColor: "#222222"
 
             height: current_jacket.height / 6
@@ -261,7 +261,7 @@ Item {
 
             fontSizeMode: Text.Fit
             verticalAlignment: Text.AlignVCenter
-            style: "Raised"
+            style: Text.Raised
             styleColor: "#222222"
 
             height: current_jacket.height / 8

@@ -58,18 +58,17 @@ Item {
 
     Rectangle {
         id: hand_mark
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: judge_position
+        anchors.bottom: judge_line.bottom
         x: part_width * gesture_engine.hand_pos + side_width
         visible: gesture_engine.hand_pos >= 0
 
         width: part_width
         height: parent.height / 2
-        opacity: 0.5
-
+        opacity: 0.75
+        z: 1000
         gradient: Gradient {
             GradientStop { position: 0; color: "transparent" }
-            GradientStop { position: 1; color: "gold" }
+            GradientStop { position: 1; color: enable ? "deepskyblue" : "whitesmoke" }
         }
     }
 
@@ -166,6 +165,20 @@ Item {
         }
     }
 
+    Text {
+        text: "NO  HAND"
+        height: judge_line.height * 2
+        visible: !hand_mark.visible
+
+        font.family: font_good_times.name
+        font.pixelSize: height * 0.8
+        color: "whitesmoke"
+        style: Text.Outline
+        styleColor: "firebrick"
+
+        anchors.centerIn: judge_line
+    }
+
     function make_chart () {
         game_process.chart.reverse().forEach(value => {
             if (Array.isArray(value)) {
@@ -190,6 +203,11 @@ Item {
                 console.log(value);
             }
         });
+    }
+
+    FontLoader {
+        id: font_good_times
+        source: "/font/good-times-rg.ttf"
     }
 
 }

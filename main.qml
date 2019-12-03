@@ -10,7 +10,12 @@ Item {
     width: Screen.width
     height: Screen.height
 
+    property string version: "NH2:SL.20191203.3b"
+
     property variant song_data: null
+    property int final_score: 0
+    property variant result_data: null
+
     property int global_offset: 0
 
     MouseArea {

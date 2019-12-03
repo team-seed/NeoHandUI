@@ -3,7 +3,6 @@ import QtQuick.Controls 2.12
 
 Column {
     property int select_index: 0
-    property string version: "NH2:SL.20191117.1b"
 
     spacing: 20
 
@@ -121,7 +120,7 @@ Column {
     Timer {
         id: destruct
         interval: game_transition.time
-        onTriggered: pageloader.source = "/ui/songselect/Songselect.qml"
+        onTriggered: pageloader.source = "/ui/home/Home.qml"
     }
 
     FontLoader { id: font_Genjyuu_XP_bold; source: "qrc:/font/GenJyuuGothicX-P-Bold.ttf" }

@@ -205,26 +205,31 @@ function generateHitMark (type, timing, percentage = 1) {
         }
 
         switch (type) {
+
         case 0:
             if (timing < 50) {
                 dynamicObject.src = "qrc:/images/exact.png"
                 game_core.add_combo()
                 game_process.hit_play()
                 life.gain_health()
+                exact_count++
                 accuracy += 1
             }
-            else if (timing < 120) {
+            else if (timing <= 120) {
                 dynamicObject.src = "qrc:/images/close.png"
                 game_process.hit_play()
                 game_core.add_combo()
                 accuracy += 0.5
+                close_count++
             }
             else {
                 dynamicObject.src = "qrc:/images/break.png"
                 game_core.break_combo()
                 life.lose_health()
+                break_count++
             }
             break
+
         case 1:
             if (timing <= 50) {
                 dynamicObject.src = "qrc:/images/exact.png"
@@ -232,34 +237,40 @@ function generateHitMark (type, timing, percentage = 1) {
                 game_core.add_combo()
                 life.gain_health()
                 accuracy += 1
+                exact_count++
             }
             else {
                 dynamicObject.src = "qrc:/images/break.png"
                 game_core.break_combo()
                 life.lose_health()
+                break_count++
             }
             break
+
         case 2:
-            if (percentage >= 0.8) {
+            if (percentage >= 0.7) {
                 dynamicObject.src = "qrc:/images/exact.png"
                 game_core.add_combo()
                 life.gain_health()
+                exact_count++
             }
-            else if (percentage >= 0.5) {
+            else if (percentage >= 0.4) {
                 dynamicObject.src = "qrc:/images/close.png"
                 game_core.add_combo()
+                close_count++
             }
             else {
                 dynamicObject.src = "qrc:/images/break.png"
                 game_core.break_combo()
                 life.lose_health()
+                break_count++
             }
             accuracy += Math.min(percentage, 1)
 
             break
         }
 
-        dynamicObject.destroy(1000)
+        dynamicObject.destroy(600)
     }
     else {
         console.log("error on loading mark")
