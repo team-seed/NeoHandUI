@@ -248,13 +248,13 @@ function generateHitMark (type, timing, percentage = 1) {
             break
 
         case 2:
-            if (percentage >= 0.7) {
+            if (percentage >= 0.8) {
                 dynamicObject.src = "qrc:/images/exact.png"
                 game_core.add_combo()
                 life.gain_health()
                 exact_count++
             }
-            else if (percentage >= 0.4) {
+            else if (percentage >= 0.5) {
                 dynamicObject.src = "qrc:/images/close.png"
                 game_core.add_combo()
                 close_count++

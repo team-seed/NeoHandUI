@@ -68,7 +68,7 @@ Item {
         z: 1000
         gradient: Gradient {
             GradientStop { position: 0; color: "transparent" }
-            GradientStop { position: 1; color: enable ? "deepskyblue" : "whitesmoke" }
+            GradientStop { position: 1; color: enable ? "skyblue" : "whitesmoke" }
         }
     }
 
